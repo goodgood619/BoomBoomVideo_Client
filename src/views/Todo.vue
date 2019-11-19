@@ -1,13 +1,13 @@
 <template>
   <section class="main">
     <ul class="todo-list">
-      <li :class="{todo: true, completed :isDone}" v-for= "({id,text,isDone},idx) in todos" :key="idx">
+      <li :class="{todo: true, completed : isDone,editing : edit.id === id}" v-for= "({id,text,isDone},idx) in todos" :key="idx">
         <div class="view">
-          <input class="toggle" type="checkbox" :checked="isDone">
-          <label>{{text}}</label>
-          <button class="destroy"></button>
+          <input class="toggle" type="checkbox" :checked="isDone" @click="handledoneTodo(id)">
+          <label @dblclick="handleEditText({text,id})">{{text}}</label>
+          <button class="destroy" @click="handleremoveTodo(id)"></button>
         </div>
-        <input class="edit" type="text">
+        <input class="edit" type = "text" v-model="edit.text" v-on:keyup.enter = "handletextupdate">
       </li>
     </ul>
   </section>
@@ -17,6 +17,36 @@
 export default {
     props : {
         todos : {type : Array, default : ()=>[]}
+    },
+    data() {
+        return {
+            // edit 데이터 관리
+            edit: {
+                text : "",
+                id : -1
+            }
+        }
+    },
+    methods : {
+        handleremoveTodo(id){
+            this.$emit("removeTodo",id);
+        },
+        handledoneTodo(id) {
+            this.$emit("updateDone",id);
+        },
+        handleEditText({text,id}){
+            this.edit = {
+                text,
+                id
+            };
+        },
+        handletextupdate(){
+                this.$emit("updateTodo",this.edit);
+                this.edit = {
+                    text : "",
+                    id : -1
+                }
+        }
     }
 };
 

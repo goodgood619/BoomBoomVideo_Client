@@ -6,7 +6,7 @@
     autofocus 
     autocomplete="off" 
     placeholder="What needs to be done?"
-    @keypress="handlesaveTodo"
+    v-on:keyup.enter="handlesaveTodo"
     />
   </header>
 </template>
@@ -19,9 +19,9 @@ export default {
     }
   },
   methods : {
-    handlesaveTodo({keycode}){
-      const {text} = this;
-      if(keycode == 13 && text !== ""){
+    handlesaveTodo(){
+      const text = this.text;
+      if(text !== "") {
         this.$emit("insertTodo",text);
         this.text = "";
       }

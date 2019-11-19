@@ -1,24 +1,37 @@
 <template>
   <footer class="footer">
     <span class="todo-count">
-      <strong>10</strong> items left
+      <strong>{{size}}</strong> items left
     </span>
-    <ul class="filters">
-      <li>
-        <a href="javascript:;" class="selected">Done</a>
+    <ul class = "filters">
+      <li v-for ="(filter,idx) in filters" :key="idx" @click="handleFilterType(filter)">
+        <a href = "javascript:;" :class= "{selected: filtertype === filter}">{{filter}}</a>
       </li>
     </ul>
-    <button class="clear-completed" style="display: none;">Clear completed</button>
+    <button class = "clear-completed" style = "display: none;">Clear completed</button>
   </footer>
 </template>
 
 <script>
 export default {
-  
+  props : {
+    filtertype : {type : String , default : 'All'},
+    size : {type: Number , default : 0}
+  },
+  data() {
+    return {
+        filters : ["All","Active","Completed"]
+    }
+  },
+  methods : {
+    handleFilterType(type) {
+      this.$emit("handleFilterType",type)
+    }
+  }
 };
 </script>
 
-<style>
+<style scoped>
 .footer {
   color: #777;
   padding: 10px 15px;

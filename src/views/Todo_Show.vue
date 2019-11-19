@@ -2,8 +2,8 @@
     <div id = "Todo_show">
         <section class = "todoapp">
             <Header @insertTodo="insertTodo"/>
-            <Todo :todos="todos"/>
-            <Footer/>
+            <Todo :todos="todos" @removeTodo = "removeTodo" @updateDone = "updateDone" @updateTodo = "updateTodo"/>
+            <Footer :filtertype="filterType" :size = "filteredlist.length" @handleFilterType = "handleFilterType"/>
         </section>
     </div>
 </template>
@@ -32,9 +32,10 @@ export default {
                     text : "치킨 먹기", 
                     isDone : false
                 }
-            ]
+            ],
+            filterType : 'All'
         }
-    },
+    },  
     methods : {
         insertTodo(text){
             this.todos = [
@@ -45,6 +46,46 @@ export default {
                     isDone: false
                 }
             ]
+        } ,
+        removeTodo(id) {
+            this.todos = this.todos.filter(todo=>todo.id !== id) 
+        },
+        updateDone(id) {
+            const todos = this.todos;
+            const todo = todos.find(todo=>todo.id === id);
+            if(todo !== undefined) {
+                    todo.isDone = !todo.isDone; //toggle 후 다시 넣어주기
+                    this.todos = todos;
+            } 
+        },
+        updateTodo({id,text}){
+            const todos = [...this.todos];
+            const todo = todos.find(todo=>todo.id === id);
+            if(todo !== undefined) {
+                todo.text = text;
+                this.todos = todos;
+            }
+        },
+        handleFilterType(type) {
+            this.filterType = type
+        }
+    },
+    computed : {
+        filteredlist() {
+            switch(this.filterType) {
+                case "All" : { 
+                    return this.todos
+                }
+                case "Active" : { 
+                    return this.todos.filter(todo => !todo.isDone)
+                }
+                case "Completed" : {
+                    return this.todos.filter(todo => todo.isDone)
+                }
+                default : {
+                    return []
+                }
+            }
         }
     }
 }
