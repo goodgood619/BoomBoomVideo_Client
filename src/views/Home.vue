@@ -40,17 +40,70 @@
     <v-content>
       <HelloWorld/>
     </v-content>
+    <button v-on:click="axiosgetTest">axios get Test</button>
+    <br><br>
+    <input class="axios-post" v-model="text" v-on:keyup.enter = "axiosfindTest">
+    <input class="axios-deletepost" v-model = "postdata" v-on:keyup.enter = "axiospostTest">
+    <span>{{axiosdata}} </span>   
+    <li v-for= "(item,idx) in findlist" :key = "idx">
+      {{item.id}},{{item.pwd}}
+    </li>
+
   </v-app>
 </template>
 
 <script>
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
-
+import axios from "axios"
+import { chartreuse } from 'color-name'
 export default {
   name: 'home',
   components: {
     HelloWorld
+  },
+  data() {
+    return {
+      axiosdata : "",
+      postdata : "",
+      text : "",
+      findlist : []
+    }
+  },
+  methods : {
+    async axiosfindTest(){
+      try {
+       this.findlist = await axios.get('/api/axiosfind')
+       this.deletedata = await axios.post('/api/axiosdelete',{id : 'gktgnjftm'})
+      }
+      catch(err) {
+        console.log(err);
+      }
+    },
+    axiosgetTest(){
+      
+        axios.get('/api/axios',{test: 'from vue to node'})
+        .then((res) => {
+          this.axiosdata = res.data;  
+        })
+        .catch(err => console.log(err))
+
+    },
+    axiospostTest(){
+        const text = this.text;
+        axios.post('/api/axiospost',{id: 'gktgnjftm',pwd : 'dkqrnjs2',num: 1111, date: 111})
+        .then(res => {
+            this.text = res.data.test;
+        })
+        .catch(err => console.log(err))
+    } ,
+    axiospostDeleteTest(){
+      axios.post('/api/axiosdelete',{id : 'gktgnjftm'})
+      .then(res => {
+          this.deletedata = res.data.test;
+      })
+      .catch(err => console.log(err))
+    }
   }
 }
 </script>

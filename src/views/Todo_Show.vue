@@ -46,11 +46,7 @@ export default {
                     isDone: false
                 }
             ]
-        } ,
-
-
-
-        
+        },
         removeTodo(id) {
             this.todos = this.todos.filter(todo=>todo.id !== id) 
         },
