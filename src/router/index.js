@@ -5,6 +5,7 @@ import Header from "../views/Header.vue";
 import Todo from "../views/Todo.vue";
 import Footer from "../views/Footer.vue"; 
 import Todo_Show from "../views/Todo_Show.vue";
+import Imageupload from "../views/Imageupload";
 Vue.use(VueRouter)
 
 const routes = [
@@ -36,6 +37,10 @@ const routes = [
     path: '/todoshow',
     name : 'todoshow',
     component : Todo_Show
+  },{
+    path : '/imageupload',
+    name : 'imageupload',
+    component : Imageupload
   }
 ]
 
