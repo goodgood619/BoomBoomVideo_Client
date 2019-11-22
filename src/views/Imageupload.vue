@@ -12,10 +12,14 @@
                 <v-img v-bind:src = item height = "200" width="300"></v-img>
             </v-list-item>   
         </v-list> 
+        <v-btn color = "blue" @click="videoupload()">video upload test</v-btn>
+        <v-btn color = "warning" @click="videostop()">video stop</v-btn>
+        <iframe src="https://youtu.be/8aGhZQkoFbQ" allowfullscreen></iframe>
     </v-app>
 </template>
 <script>
 import axios from 'axios'
+import myvideo from 'vue-video'
 import { chartreuse } from 'color-name';
 export default {
     data() {
@@ -23,7 +27,18 @@ export default {
             formdata : new FormData(),
             files : [],
             receivedfile : [],
-            testname : []
+            testname : [],
+            uploadvideo : "",
+            video : {
+                sources : [{
+                    src : 'https://youtu.be/8aGhZQkoFbQ',
+                    type: 'video/mp4'
+                }],
+                options : {
+                    autoplay : true,
+                    volume : 0.6,
+                }
+            }
         }
     },
     methods : {
@@ -59,6 +74,10 @@ export default {
             catch(err){
                 console.log(err);
             }
+        },
+         videoupload(){
+            this.$refs.videoRef.src = "https://youtu.be/8aGhZQkoFbQ";
+            this.$refs.videoRef.play();
         }
     }
 }
