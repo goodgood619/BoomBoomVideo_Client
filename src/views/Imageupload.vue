@@ -14,12 +14,12 @@
         </v-list> 
         <v-btn color = "blue" @click="videoupload()">video upload test</v-btn>
         <v-btn color = "warning" @click="videostop()">video stop</v-btn>
-        <iframe src="https://youtu.be/8aGhZQkoFbQ" allowfullscreen></iframe>
+        <iframe v-bind:src=uploadvideo allowfullscreen></iframe>
     </v-app>
 </template>
 <script>
 import axios from 'axios'
-import myvideo from 'vue-video'
+import myvideo from 'vue-youtube-embed'
 import { chartreuse } from 'color-name';
 export default {
     data() {
@@ -76,8 +76,9 @@ export default {
             }
         },
          videoupload(){
-            this.$refs.videoRef.src = "https://youtu.be/8aGhZQkoFbQ";
-            this.$refs.videoRef.play();
+            const name = "cQYlHm-clck"
+            this.uploadvideo = "https://www.youtube.com/embed/ " + name
+
         }
     }
 }
