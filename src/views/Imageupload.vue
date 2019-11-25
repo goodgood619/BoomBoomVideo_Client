@@ -13,8 +13,8 @@
             </v-list-item>   
         </v-list> 
         <v-btn color = "blue" @click="videoupload()">video upload test</v-btn>
-        <v-btn color = "warning" @click="videostop()">video stop</v-btn>
-        <iframe v-bind:src=uploadvideo allowfullscreen></iframe>
+        <v-btn color = "warning" @click="saveboard()">boardcontent post test and AI</v-btn>
+        <iframe height = "400" width = "450" v-bind:src=uploadvideo allowfullscreen></iframe>
     </v-app>
 </template>
 <script>
@@ -31,7 +31,7 @@ export default {
             uploadvideo : "",
             video : {
                 sources : [{
-                    src : 'https://youtu.be/8aGhZQkoFbQ',
+                    src : 'https://youtu.be/JXbLJmBDFf4',
                     type: 'video/mp4'
                 }],
                 options : {
@@ -76,9 +76,23 @@ export default {
             }
         },
          videoupload(){
-            const name = "cQYlHm-clck"
-            this.uploadvideo = "https://www.youtube.com/embed/ " + name
-
+            //  <iframe width="560" height="315" src="https://www.youtube.com/embed/p95z_jySDfk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            // https://www.facebook.com/dongyeongsang/videos/3455375191154445/
+            //http://sports.news.naver.com/kfootball/vod/index.nhn?uCategory=kfootball&category=kleague&id=612765&redirect=true
+            //http://sports.news.naver.com/kfootball/vod/index.nhn?uCategory=kfootball&category=kleague&id=612742&redirect=true
+            this.uploadvideo = "http://sports.news.naver.com/kfootball/vod/index.nhn?uCategory=kfootball&category=kleague&id=612742&redirect=true"
+        },
+        async saveboard(){
+            try{
+                const res = await axios({
+                    method : 'post',
+                    url : '/api/saveboard'
+                })
+                alert(res)
+            }
+            catch(err){
+                console.log(err)
+            }
         }
     }
 }

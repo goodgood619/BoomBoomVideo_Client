@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-import Header from "../views/Header.vue";
-import Todo from "../views/Todo.vue";
-import Footer from "../views/Footer.vue"; 
-import Todo_Show from "../views/Todo_Show.vue";
-import Imageupload from "../views/Imageupload";
+import Home from '../views/Home'
+import Header from '../views/Header'
+import Todo from '../views/Todo'
+import Footer from '../views/Footer' 
+import Todo_Show from '../views/Todo_Show'
+import Imageupload from '../views/Imageupload'
+import Board from "../views/Board"
 Vue.use(VueRouter)
 
 const routes = [
@@ -41,6 +42,10 @@ const routes = [
     path : '/imageupload',
     name : 'imageupload',
     component : Imageupload
+  },{
+    path :'/board',
+    name : 'board',
+    component : Board
   }
 ]
 
