@@ -14,6 +14,7 @@
 import boardheader from "./Boardheader"
 import boardcontent from "./Boardcontent"
 import replycontent from "./Replycontent"
+import axios from 'axios'
 export default {
     components : {
         boardheader,
