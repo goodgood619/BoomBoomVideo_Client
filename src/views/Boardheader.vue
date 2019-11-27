@@ -20,6 +20,11 @@
                         </v-form>
                     </v-card-text>
             </v-card>
+            <div class = "pagination">
+                    <v-pagination v-model ="page" :length="1" circle>
+
+                    </v-pagination>
+            </div>
         </v-dialog>
     </div>
 </template>
@@ -28,11 +33,14 @@
 import axios from 'axios'
 import boardcontent from './Boardcontent'
 export default {
+    props : {
+        page : {type:Number, default : 1}
+    },
     data() {
         return {
             dialog : false,
             items : ['LOL','게임','배그','오버워치','유머','음악','감동','동물','스포츠','기타'],
-            category : "", linkaddress : "", title : "", author : "", password : ""
+            category : "", linkaddress : "", title : "", author : "", password : "",
         }
     },
     methods : {
@@ -40,18 +48,13 @@ export default {
             alert('test')
         },
         async registercontent() {
-                try {
-                    const res = await axios({
-                        method : 'post',
-                        url : '/api/saveboard',
-                        data : {category : this.category, linkaddress : this.linkaddress, title : this.title, author : this.author, password : this.password}
-                    })
-                    alert(res.data);
-                    this.category = "", this.linkaddress = "", this.title = "", this.author = "", this.password = ""
-                }
-                catch(err){
-                    console.log(err)
-                }
+            if(this.linkaddress !== ""){
+                this.$emit('registercontent',this.category,this.linkaddress,this.title,this.author,this.password)
+                this.category = "", this.linkaddress = "", this.title = "", this.author = "", this.password = ""
+            }
+            else {
+                alert('link를 반드시 입력해주세요')
+            }
         }
     }
 }
