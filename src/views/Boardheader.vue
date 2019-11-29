@@ -20,12 +20,15 @@
                         </v-form>
                     </v-card-text>
             </v-card>
-            <div class = "pagination">
-                    <v-pagination v-model ="page" :length="1" circle>
-
-                    </v-pagination>
-            </div>
         </v-dialog>
+        <div class="case-slider__navigation">
+            <li class="next" v-show="page<total-1">
+                <button @click="nextpagination">next</button>
+            </li>
+            <li class="prev" v-show="page>0">
+                <button @click="prevpagination">previous</button>
+            </li>
+        </div>
     </div>
 </template>
 
@@ -34,7 +37,8 @@ import axios from 'axios'
 import boardcontent from './Boardcontent'
 export default {
     props : {
-        page : {type:Number, default : 1}
+        page : {type:Number, default : 0},
+        total : {type:Number, default : 0}
     },
     data() {
         return {
@@ -55,6 +59,12 @@ export default {
             else {
                 alert('link를 반드시 입력해주세요')
             }
+        },
+        async nextpagination(){
+            this.$emit('nextpagination',this.page)
+        },
+        async prevpagination(){
+            this.$emit('prevpagination',this.page)
         }
     }
 }

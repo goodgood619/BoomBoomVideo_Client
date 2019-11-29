@@ -2,7 +2,7 @@
     <div id ="board">
         <section class = "boardapp">
             <v-app>
-           <boardheader :page="page" @registercontent ="registercontent"/>
+           <boardheader :page="page" :total="total" @registercontent ="registercontent" @nextpagination ="nextpagination" @prevpagination="prevpagination"/>
            <boardcontent :uploaddata="uploaddata" @removeboardcontent = "removeboardcontent"/>
            <replycontent/>
            </v-app>
@@ -20,7 +20,8 @@ export default {
     data() {
         return {
             uploaddata : [],
-            page : 1
+            page : 0,
+            total : 0
         }
     },
     components : {
@@ -29,8 +30,24 @@ export default {
         replycontent
     },
     methods : {
+        async dataupload(){
+            try {
+                    const res = await axios({
+                    method : 'post',
+                    url : '/api/dataupload',
+                    data : {page : this.page}
+                })
+                this.uploaddata = res.data.data[0].test
+                this.total = res.data.data[1].total / 3
+                alert(this.uploaddata)
+            }
+            catch(err) {
+                console.log(err)
+            }
+        },
         async registercontent(category,linkaddress,title,author,password){
             try {
+                //현재 페이지 다시 계산, 전체 게시글 수 다시 계산
                     const res = await axios({
                         method : 'post',
                         url : '/api/saveboard',
@@ -44,20 +61,7 @@ export default {
                              likenumber : aa.likenumber, linkaddress : aa.linkaddress, password : aa.password, reportcnt : aa.reportcnt, title : aa.title
                         }
                     ]
-            }
-            catch(err) {
-                console.log(err)
-            }
-        },
-        async dataupload(){
-            try {
-                    const res = await axios({
-                    method : 'post',
-                    url : '/api/dataupload',
-                    data : {page : this.page}
-                })
-                this.uploaddata = res.data.test
-                alert(this.uploaddata)
+                    this.dataupload()
             }
             catch(err) {
                 console.log(err)
@@ -65,6 +69,7 @@ export default {
         },
         async removeboardcontent(boardnumber){
             try {
+                //현재 페이지 다시 계산, 전체 게시글 수 다시 계산
                 const res = await axios({
                     method : 'post',
                     url : '/api/removeboardcontent',
@@ -72,7 +77,41 @@ export default {
                 })
                 alert(res.data.test)
                 this.uploaddata = this.uploaddata.filter(uploaddata => uploaddata.boardnumber !== boardnumber)
-
+                this.dataupload()
+            }
+            catch(err){
+                console.log(err)
+            }
+        },
+        async nextpagination(page){
+            var aa = page
+            aa++
+            try {
+                const res = await axios({
+                    method : 'post',
+                    url :'/api/nextpagination',
+                    data : {page : aa}
+                })
+                alert(res.data.test)
+                this.uploaddata = res.data.test
+                this.page = aa
+            }
+            catch(err) {
+                console.log(err)
+            }
+        },
+        async prevpagination(page) {
+            var aa = page
+            aa--
+            try {
+                const res = await axios({
+                    method : 'post',
+                    url : '/api/pastpagination',
+                    data : {page : aa}
+                })
+                alert(res.data.test)
+                this.uploaddata = res.data.test
+                this.page = aa
             }
             catch(err){
                 console.log(err)
