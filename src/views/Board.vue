@@ -46,6 +46,7 @@ export default {
             }
         },
         async registercontent(category,linkaddress,title,author,password){
+            
             try {
                 //현재 페이지 다시 계산, 전체 게시글 수 다시 계산
                     const res = await axios({
@@ -54,14 +55,19 @@ export default {
                         data : {category : category , linkaddress : linkaddress , title : title, author : author, password : password}
                     })
                     const aa = res.data.test
-                    this.uploaddata = [
-                        ...this.uploaddata,
-                        {
-                            author : aa.author , boardnumber : aa.boardnumber, category : aa.category, dislikenumber : aa.dislikenumber,iframetoggle : aa.iframetoggle,
-                             likenumber : aa.likenumber, linkaddress : aa.linkaddress, password : aa.password, reportcnt : aa.reportcnt, title : aa.title
-                        }
-                    ]
-                    this.dataupload()
+                    if(aa!= undefined){
+                        this.uploaddata = [
+                            ...this.uploaddata,
+                            {
+                                author : aa.author , boardnumber : aa.boardnumber, category : aa.category, dislikenumber : aa.dislikenumber,iframetoggle : aa.iframetoggle,
+                                likenumber : aa.likenumber, linkaddress : aa.linkaddress, password : aa.password, reportcnt : aa.reportcnt, title : aa.title
+                            }
+                        ]
+                        this.dataupload()
+                    }
+                    else {
+                        alert(res.data.err.name)
+                    }
             }
             catch(err) {
                 console.log(err)

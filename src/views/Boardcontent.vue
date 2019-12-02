@@ -19,7 +19,7 @@
       </thead>
     </template>
     </v-simple-table>
-    <div style = "position: relative; width:100%; height :90px; border-top : 1px solid rgb(135,177,226)" v-for = "(item,idx) in uploaddata" :key="idx">
+    <div style = "position:relative; width:100%; height :90px; border-top : 1px solid rgb(135,177,226)" v-for = "(item,idx) in uploaddata" :key="idx">
         <!-- 좋아요 버튼 싫어요 버튼(추천) -->
         <div style="position:absolute; left:0px; top:4px; width:80px; text-align:center; line-height:150%;">
             <v-btn color = "blue" >좋아요</v-btn>
@@ -36,21 +36,20 @@
         </div>
         <!-- title 및 링크 -->
         <div style="position:absolute; left:210px; top:4px; width:515px; overflow:hidden;" class="ell">
-            <a style="text-decoration:none;" target="_blank" href="http://www1.president.go.kr/petitions/583677">
+            <a style="text-decoration:none;" target="_blank" :href=item.linkaddress>
             <span style="color:#2955BC; font-size:10pt; font-family:dotum; text-decoration:none;">
-                <b>참여인원 : [ 190,491명 ]</b>
+                <b>{{item.title}}</b>
             </span>
-                <img style="border:0px;" src="/img/new.png">
             <br>
-                <span style="color:#BBB;">http://www1.president.go.kr/petitions/583677</span>
+                <span style="color:#BBB;">{{item.linktitle}}</span>
             </a>
             <br>
-                <span style="color:#77D; font-size:10px;">{{item.author}} 님께서 올린 글</span>
+                <span style="color:#77D; font-size:10px;">{{item.author}} 님께서 올린 글/{{item.linkauthor}}</span>
             <br>
         </div>
         <!-- 댓글 갯수 -->
         <div style="position:absolute; width:500px; left:210px; bottom:-5px;">
-            <span class="comments ui-widget-content ui-corner-all" style="padding:3px; font-family:gulim; cursor:pointer;" tid="5ddca83c1d295a1d2c8b4567">[ 37 ]개의 댓글</span>
+            <span class="comments ui-widget-content ui-corner-all" style="padding:3px; font-family:gulim; cursor:pointer;" @click="item.replytoggle = !item.replytoggle" tid="5ddca83c1d295a1d2c8b4567">[ 0 ]개의 댓글</span>
             <v-btn class="c_delete ui-widget-content ui-corner-all" @click ="removeboardcontent(item.boardnumber)" style="padding:3px; font-family:gulim; cursor:pointer;">삭제</v-btn>
              <div style="position:absolute; right:160px; top:0px;">
                  <span class="send_report ui-widget-content ui-corner-all" style="background:#FDD; padding:3px; font-family:gulim; cursor:pointer;" tid="5ddca83c1d295a1d2c8b4567" title="">신고</span>
@@ -58,13 +57,27 @@
             </div>
         </div>
         <!-- iframe link(toggle) -->
-        <div v-show ="item.iframetoggle" id="memo_5ddb91ee1d295a806b8b4568" cid="5ddb91ee1d295a806b8b4568" style="vertical-align: middle; border-top: 1px dotted rgb(183, 209, 242); padding: 8px 8px 8px 75px; display: block;" isshow="1">
+        <div v-show ="item.iframetoggle" style="vertical-align: middle; border-top: 100px solid; padding: 8px 8px 8px 75px; display: block;">
             <div style="margin-left:-85px;">
-                <iframe height="411" width="730" frameborder="0" v-bind:src=testlink webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen="" allow="autoplay; fullscreen">
+                <iframe height="411" width="730" frameborder="0" v-bind:src=item.linkaddress webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen="" allow="autoplay; fullscreen">
                 </iframe>
             </div>
         </div>
-
+        <div v-show="item.replytoggle" style="vertical-align: middle; border-top: 1px dotted rgb(183, 209, 242);">
+            <div style="padding:5px; margin-left:80px;">이름: 
+            <input name="name" value="" class="ui-widget-content ui-corner-all" style="width:80px;" maxlength="10"> &nbsp; 암호: 
+            <input name="pass" class="ui-widget-content ui-corner-all" style="width:80px;"> &nbsp; 
+            <span style="font-size:11px; color:#F88;">(이름 생략 가능 / 암호 생략 시 IP로 자동인증 됩니다.)</span>
+            <br>
+            내용: 
+            <input name="comm" class="comment_memo ui-widget-content ui-corner-all" style="width:480px;"> &nbsp; 
+            <input name="id" type="hidden" value="5ddfec8a1d295a71288b4567">
+            <span class="do_comment ui-widget-content ui-corner-all" style="cursor:pointer; padding:3px">&nbsp;
+             √ &nbsp;</span><span class="error" style="color:red;"></span>
+             <br>
+             <span style="color:red;">※ 추천유도!, 비방성 댓글, 허위사실, 비속어 등은 자제해 주세요.</span>
+             </div>
+        </div>
         </div>
     </div>
 </template>
