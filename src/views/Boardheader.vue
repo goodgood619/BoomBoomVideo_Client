@@ -35,6 +35,7 @@
 <script>
 import axios from 'axios'
 import boardcontent from './Boardcontent'
+// testcommit
 export default {
     props : {
         page : {type:Number, default : 0},
