@@ -3,7 +3,7 @@
         <section class = "boardapp">
             <v-app>
            <boardheader :page="page" :total="total" @registercontent ="registercontent" @nextpagination ="nextpagination" @prevpagination="prevpagination"/>
-           <boardcontent :uploaddata="uploaddata" @removeboardcontent = "removeboardcontent"/>
+           <boardcontent :uploaddata="uploaddata" @removeboardcontent = "removeboardcontent" @likeboardcontent = "likeboardcontent" @dislikeboardcontent = "dislikeboardcontent"/>
            <replycontent/>
            </v-app>
         </section>
@@ -118,6 +118,36 @@ export default {
                 alert(res.data.test)
                 this.uploaddata = res.data.test
                 this.page = aa
+            }
+            catch(err){
+                console.log(err)
+            }
+        },
+        async likeboardcontent(boardnumber,likenumber) {
+            try {
+                const res = await axios({
+                    method :'post',
+                    url :'/api/likeboardcontent',
+                    data : {boardnumber : boardnumber,likenumber : likenumber}
+                })
+                alert('좋아요가 반영되었습니다')
+                let idx = this.uploaddata.findIndex((obj => obj.boardnumber == boardnumber))
+                this.uploaddata[idx].likenumber = res.data.test.likenumber
+            }
+            catch(err) {
+                console.log(err)
+            }
+        },
+        async dislikeboardcontent(boardnumber,dislikenumber) {
+            try {
+                const res = await axios({
+                    method : 'post',
+                    url : '/api/dislikeboardcontent',
+                    data : {boardnumber : boardnumber, dislikenumber : dislikenumber}
+                })
+                alert('싫어요가 반영되었습니다')
+                let idx = this.uploaddata.findIndex((obj => obj.boardnumber == boardnumber))
+                this.uploaddata[idx].dislikenumber = res.data.test.dislikenumber
             }
             catch(err){
                 console.log(err)

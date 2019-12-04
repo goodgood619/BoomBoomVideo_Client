@@ -22,11 +22,11 @@
     <div style = "position:relative; width:100%; height :90px; border-top : 1px solid rgb(135,177,226)" v-for = "(item,idx) in uploaddata" :key="idx">
         <!-- 좋아요 버튼 싫어요 버튼(추천) -->
         <div style="position:absolute; left:0px; top:4px; width:80px; text-align:center; line-height:150%;">
-            <v-btn color = "blue" >좋아요</v-btn>
+            <v-btn color = "blue" @click ="likeboardcontent(item.boardnumber,item.likenumber)">좋아요</v-btn>
             <br>
             <span id="good_5ddca83c1d295a1d2c8b4567" title="28" score="28">{{item.likenumber - item.dislikenumber}}</span>
             <br>
-            <v-btn color = "red">싫어요</v-btn>
+            <v-btn color = "red" @click ="dislikeboardcontent(item.boardnumber,item.dislikenumber)">싫어요</v-btn>
         </div>
         <!-- iframe 관련 이미지(thumbnail) -->
         <div class="ll_thumb" style="position:absolute; left:80px; top:4px; width:120px; height:80px; overflow:hidden; text-align:center; border:1px solid silver;">
@@ -98,6 +98,12 @@ export default {
     methods : {
         removeboardcontent(boardnumber) {
             this.$emit("removeboardcontent",boardnumber)
+        },
+        likeboardcontent(boardnumber,likenumber) {
+            this.$emit("likeboardcontent",boardnumber,likenumber)
+        },
+        dislikeboardcontent(boardnumber,dislikenumber) {
+            this.$emit("dislikeboardcontent",boardnumber,dislikenumber)
         }
     }
 }
