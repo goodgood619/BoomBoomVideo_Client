@@ -50,7 +50,23 @@
         <!-- 댓글 갯수 -->
         <div style="position:absolute; width:500px; left:210px; bottom:-5px;">
             <span class="comments ui-widget-content ui-corner-all" style="padding:3px; font-family:gulim; cursor:pointer;" @click="item.replytoggle = !item.replytoggle" tid="5ddca83c1d295a1d2c8b4567">[ 0 ]개의 댓글</span>
-            <v-btn class="c_delete ui-widget-content ui-corner-all" @click ="removeboardcontent(item.boardnumber)" style="padding:3px; font-family:gulim; cursor:pointer;">삭제</v-btn>
+               <v-dialog v-model="deletetoggle" max-width = "200px" max-height = "30px">
+                <template v-slot:activator="{on}">
+                    <v-btn class="c_delete ui-widget-content ui-corner-all" dark v-on="on" style="padding:3px; font-family:gulim; cursor:pointer;">삭제</v-btn>
+                </template>
+            <v-card>
+                <v-card-title>
+                    <h2>게시물 삭제</h2>
+                </v-card-title>
+                    <v-card-text>
+                        <v-form class = "px-3">
+                            <v-textarea label = "암호" v-model="password"></v-textarea>
+                            <v-btn class = "success mx-0 mt-3" @click="removeboardcontent(item.boardnumber,password)">삭제</v-btn>
+                            <v-btn class = "cancel mx-3 mt-3" @click="deletetoggle = false">취소</v-btn>
+                        </v-form>
+                    </v-card-text>
+            </v-card>
+        </v-dialog> 
              <div style="position:absolute; right:160px; top:0px;">
                  <span class="send_report ui-widget-content ui-corner-all" style="background:#FDD; padding:3px; font-family:gulim; cursor:pointer;" tid="5ddca83c1d295a1d2c8b4567" title="">신고</span>
                   <span class="ui-widget-content ui-corner-all" style="background:#DDF; padding:3px; font-family:gulim;" tid="5ddca83c1d295a1d2c8b4567" title="">분류: {{item.category}}</span> 
@@ -92,12 +108,15 @@ export default {
     data() {
         return {
             testlink : "https://www.youtube.com/embed/Bhdcy2GoUFc",
-            dialog : false
+            dialog : false,
+            password : "",
+            deletetoggle : ""
         }
     },
     methods : {
-        removeboardcontent(boardnumber) {
-            this.$emit("removeboardcontent",boardnumber)
+        removeboardcontent(boardnumber,password) {
+            this.$emit("removeboardcontent",boardnumber,password)
+            this.password = ""
         },
         likeboardcontent(boardnumber,likenumber) {
             this.$emit("likeboardcontent",boardnumber,likenumber)

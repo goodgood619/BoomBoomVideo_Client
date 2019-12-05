@@ -73,13 +73,13 @@ export default {
                 console.log(err)
             }
         },
-        async removeboardcontent(boardnumber){
+        async removeboardcontent(boardnumber,password){
             try {
                 //현재 페이지 다시 계산, 전체 게시글 수 다시 계산
                 const res = await axios({
                     method : 'post',
                     url : '/api/removeboardcontent',
-                    data : {boardnumber : boardnumber}
+                    data : {boardnumber : boardnumber,password: password}
                 })
                 alert(res.data.test)
                 this.uploaddata = this.uploaddata.filter(uploaddata => uploaddata.boardnumber !== boardnumber)
@@ -130,9 +130,14 @@ export default {
                     url :'/api/likeboardcontent',
                     data : {boardnumber : boardnumber,likenumber : likenumber}
                 })
-                alert('좋아요가 반영되었습니다')
                 let idx = this.uploaddata.findIndex((obj => obj.boardnumber == boardnumber))
-                this.uploaddata[idx].likenumber = res.data.test.likenumber
+                if(res.data.test !=="no"){
+                    alert('좋아요가 반영되었습니다')
+                    this.uploaddata[idx].likenumber = res.data.test.likenumber
+                }
+                else {
+                    alert('이미 좋아요를 눌렀습니다, 다른 IP를 이용해주세요')
+                }
             }
             catch(err) {
                 console.log(err)
@@ -145,9 +150,14 @@ export default {
                     url : '/api/dislikeboardcontent',
                     data : {boardnumber : boardnumber, dislikenumber : dislikenumber}
                 })
-                alert('싫어요가 반영되었습니다')
                 let idx = this.uploaddata.findIndex((obj => obj.boardnumber == boardnumber))
-                this.uploaddata[idx].dislikenumber = res.data.test.dislikenumber
+                if(res.data.test !== "no") {
+                    alert('싫어요가 반영되었습니다')
+                    this.uploaddata[idx].dislikenumber = res.data.test.dislikenumber
+                }
+                else {
+                    alert('이미 싫어요를 눌렀습니다.')
+                }
             }
             catch(err){
                 console.log(err)
