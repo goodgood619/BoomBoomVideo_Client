@@ -68,7 +68,7 @@
             </v-card>
         </v-dialog> 
              <div style="position:absolute; right:160px; top:0px;">
-                 <span class="send_report ui-widget-content ui-corner-all" style="background:#FDD; padding:3px; font-family:gulim; cursor:pointer;" tid="5ddca83c1d295a1d2c8b4567" title="">신고</span>
+                 <span class="send_report ui-widget-content ui-corner-all" style="background:#FDD; padding:3px; font-family:gulim; cursor:pointer;" @click="reportcntcontent(item.boardnumber,item.reportcnt)">신고</span>
                   <span class="ui-widget-content ui-corner-all" style="background:#DDF; padding:3px; font-family:gulim;" tid="5ddca83c1d295a1d2c8b4567" title="">분류: {{item.category}}</span> 
             </div>
         </div>
@@ -123,6 +123,9 @@ export default {
         },
         dislikeboardcontent(boardnumber,dislikenumber) {
             this.$emit("dislikeboardcontent",boardnumber,dislikenumber)
+        },
+        reportcntcontent(boardnumber,reportcnt) {
+            this.$emit("reportcntcontent",boardnumber,reportcnt)
         }
     }
 }

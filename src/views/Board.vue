@@ -3,7 +3,7 @@
         <section class = "boardapp">
             <v-app>
            <boardheader :page="page" :total="total" @registercontent ="registercontent" @nextpagination ="nextpagination" @prevpagination="prevpagination"/>
-           <boardcontent :uploaddata="uploaddata" @removeboardcontent = "removeboardcontent" @likeboardcontent = "likeboardcontent" @dislikeboardcontent = "dislikeboardcontent"/>
+           <boardcontent :uploaddata="uploaddata" @removeboardcontent = "removeboardcontent" @likeboardcontent = "likeboardcontent" @dislikeboardcontent = "dislikeboardcontent" @reportcntcontent="reportcntcontent"/>
            <replycontent/>
            </v-app>
         </section>
@@ -157,6 +157,26 @@ export default {
                 }
                 else {
                     alert('이미 싫어요를 눌렀습니다.')
+                }
+            }
+            catch(err){
+                console.log(err)
+            }
+        },
+        async reportcntcontent(boardnumber,reportcnt) {
+            try {
+                const res = await axios({
+                    method: 'post',
+                    url : '/api/reportcntcontent',
+                    data : {boardnumber : boardnumber,reportcnt :reportcnt}
+                })
+                let idx = this.uploaddata.findIndex((obj => obj.boardnumber == boardnumber))
+                if(res.data.test !== "no") {
+                    alert('신고가 반영되었습니다')
+                    this.uploaddata[idx].reportcnt = res.data.test.reportcnt
+                }
+                else {
+                    alert('이미 신고를 눌렀습니다.')
                 }
             }
             catch(err){
