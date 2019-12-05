@@ -50,7 +50,7 @@
         <!-- 댓글 갯수 -->
         <div style="position:absolute; width:500px; left:210px; bottom:-5px;">
             <span class="comments ui-widget-content ui-corner-all" style="padding:3px; font-family:gulim; cursor:pointer;" @click="item.replytoggle = !item.replytoggle" tid="5ddca83c1d295a1d2c8b4567">[ 0 ]개의 댓글</span>
-               <v-dialog v-model="deletetoggle" max-width = "200px" max-height = "30px">
+            <v-dialog v-model="deletetoggle" max-width = "200px" max-height = "30px" :retain-focus="false">
                 <template v-slot:activator="{on}">
                     <v-btn class="c_delete ui-widget-content ui-corner-all" dark v-on="on" style="padding:3px; font-family:gulim; cursor:pointer;">삭제</v-btn>
                 </template>
@@ -110,7 +110,7 @@ export default {
             testlink : "https://www.youtube.com/embed/Bhdcy2GoUFc",
             dialog : false,
             password : "",
-            deletetoggle : ""
+            deletetoggle : false
         }
     },
     methods : {
