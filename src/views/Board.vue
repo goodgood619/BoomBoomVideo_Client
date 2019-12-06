@@ -171,7 +171,11 @@ export default {
                     data : {boardnumber : boardnumber,reportcnt :reportcnt}
                 })
                 let idx = this.uploaddata.findIndex((obj => obj.boardnumber == boardnumber))
-                if(res.data.test !== "no") {
+                if(res.data.test.reportcnt >= 5) {
+                    alert('신고 횟수가 5회가 넘어 게시글이 삭제됩니다')
+                    this.removeboardcontent(boardnumber,res.data.test.password)
+                }
+                else if(res.data.test !== "no") {
                     alert('신고가 반영되었습니다')
                     this.uploaddata[idx].reportcnt = res.data.test.reportcnt
                 }
