@@ -1,5 +1,4 @@
 <template>
-    <div id ="board">
         <v-app>
            <boardheader :page="page" :total="total" @registercontent ="registercontent" @nextpagination ="nextpagination" @prevpagination="prevpagination"/>
            <boardcontent :uploaddata="uploaddata" @removeboardcontent = "removeboardcontent" @likeboardcontent = "likeboardcontent" 
@@ -7,7 +6,6 @@
            @savereplycontent="savereplycontent"/>
            <replycontent/>
         </v-app>
-    </div>
 </template>
 
 <script>
