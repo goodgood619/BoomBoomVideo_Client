@@ -1,12 +1,12 @@
 <template>
     <div id ="board">
-        <section class = "boardapp">
-            <v-app>
+        <v-app>
            <boardheader :page="page" :total="total" @registercontent ="registercontent" @nextpagination ="nextpagination" @prevpagination="prevpagination"/>
-           <boardcontent :uploaddata="uploaddata" @removeboardcontent = "removeboardcontent" @likeboardcontent = "likeboardcontent" @dislikeboardcontent = "dislikeboardcontent" @reportcntcontent="reportcntcontent"/>
+           <boardcontent :uploaddata="uploaddata" @removeboardcontent = "removeboardcontent" @likeboardcontent = "likeboardcontent" 
+           @dislikeboardcontent ="dislikeboardcontent" @reportcntcontent="reportcntcontent"
+           @savereplycontent="savereplycontent"/>
            <replycontent/>
-           </v-app>
-        </section>
+        </v-app>
     </div>
 </template>
 
@@ -20,6 +20,7 @@ export default {
     data() {
         return {
             uploaddata : [],
+            replydata : [],
             page : 0,
             total : 0
         }
@@ -182,6 +183,19 @@ export default {
                 else {
                     alert('이미 신고를 눌렀습니다.')
                 }
+            }
+            catch(err){
+                console.log(err)
+            }
+        },
+        async savereplycontent(boardnumber,reauthor,repassword,recontent){
+            try {
+                const res = await axios({
+                    method : 'post',
+                    url : '/api/savereply',
+                    data : {boardnumber : boardnumber, reauthor : reauthor , repassword : repassword, recontent : recontent}
+                })
+                alert('댓글이 성공적으로 저장되었습니다')
             }
             catch(err){
                 console.log(err)

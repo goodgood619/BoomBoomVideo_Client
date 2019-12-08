@@ -19,12 +19,13 @@
       </thead>
     </template>
     </v-simple-table>
-    <div style = "position:relative; width:100%; height :90px; border-top : 1px solid rgb(135,177,226)" v-for = "(item,idx) in uploaddata" :key="idx">
+    <div v-for = "(item,idx) in uploaddata" :key="idx">
+    <div style = "position:relative; width:100%; height :90px; border-top : 1px solid rgb(135,177,226)">
         <!-- 좋아요 버튼 싫어요 버튼(추천) -->
         <div style="position:absolute; left:0px; top:4px; width:80px; text-align:center; line-height:150%;">
             <v-btn color = "blue" @click ="likeboardcontent(item.boardnumber,item.likenumber)">좋아요</v-btn>
             <br>
-            <span id="good_5ddca83c1d295a1d2c8b4567" title="28" score="28">{{item.likenumber - item.dislikenumber}}</span>
+            <span title="28" score="28">{{item.likenumber - item.dislikenumber}}</span>
             <br>
             <v-btn color = "red" @click ="dislikeboardcontent(item.boardnumber,item.dislikenumber)">싫어요</v-btn>
         </div>
@@ -49,11 +50,10 @@
         </div>
         <!-- 댓글 갯수 -->
         <div style="position:absolute; width:500px; left:210px; bottom:-5px;">
-            <span class="comments ui-widget-content ui-corner-all" style="padding:3px; font-family:gulim; cursor:pointer;" @click="item.replytoggle = !item.replytoggle" tid="5ddca83c1d295a1d2c8b4567">[ 0 ]개의 댓글</span>
-            <v-dialog v-model="deletetoggle" max-width = "200px" max-height = "30px" :retain-focus="false">
-                <template v-slot:activator="{on}">
-                    <v-btn class="c_delete ui-widget-content ui-corner-all" dark v-on="on" style="padding:3px; font-family:gulim; cursor:pointer;">삭제</v-btn>
-                </template>
+            <span class="position: absolute; comments ui-widget-content ui-corner-all" style="padding:3px; font-family:gulim; cursor:pointer;" @click="item.replytoggle = !item.replytoggle" tid="5ddca83c1d295a1d2c8b4567">[ 0 ]개의 댓글</span>
+            <v-btn class="c_delete ui-widget-content ui-corner-all" dark @click ="removebutton(item.boardnumber)" style="padding:3px; font-family:gulim; cursor:pointer;">삭제</v-btn>
+            <v-btn class="c_delete ui-widget-content ui-corner-all" white @click="registerreplybutton(item.boardnumber)" style="padding:3px; font-family:gulim; cursor:pointer;">댓글등록</v-btn>
+        <v-dialog v-model="deletetoggle" max-width = "200px" max-height = "30px" :retain-focus="false">
             <v-card>
                 <v-card-title>
                     <h2>게시물 삭제</h2>
@@ -61,41 +61,52 @@
                     <v-card-text>
                         <v-form class = "px-3">
                             <v-textarea label = "암호" v-model="password"></v-textarea>
-                            <v-btn class = "success mx-0 mt-3" @click="removeboardcontent(item.boardnumber,password)">삭제</v-btn>
+                            <v-btn class = "success mx-0 mt-3" @click="removeboardcontent(testnumber,password)">삭제</v-btn>
                             <v-btn class = "cancel mx-3 mt-3" @click="deletetoggle = false">취소</v-btn>
                         </v-form>
                     </v-card-text>
             </v-card>
         </v-dialog> 
-             <div style="position:absolute; right:160px; top:0px;">
-                 <span class="send_report ui-widget-content ui-corner-all" style="background:#FDD; padding:3px; font-family:gulim; cursor:pointer;" @click="reportcntcontent(item.boardnumber,item.reportcnt)">신고</span>
-                  <span class="ui-widget-content ui-corner-all" style="background:#DDF; padding:3px; font-family:gulim;" tid="5ddca83c1d295a1d2c8b4567" title="">분류: {{item.category}}</span> 
-            </div>
+                <div style="position:absolute; right:160px; top:0px;">
+                    <span class="send_report ui-widget-content ui-corner-all" style="background:#FDD; padding:3px; font-family:gulim; cursor:pointer;" @click="reportcntcontent(item.boardnumber,item.reportcnt)">신고</span>
+                    <span class="ui-widget-content ui-corner-all" style="background:#DDF; padding:3px; font-family:gulim;" title="">분류: {{item.category}}</span> 
+                </div>
         </div>
+    </div>
         <!-- iframe link(toggle) -->
-        <div v-show ="item.iframetoggle" style="vertical-align: middle; border-top: 100px solid; padding: 8px 8px 8px 75px; display: block;">
+        <div v-show ="item.iframetoggle" style="vertical-align: middle; border-top:0px solid; padding: 8px 8px 8px 75px;color:white">
             <div style="margin-left:-85px;">
                 <iframe height="411" width="730" frameborder="0" v-bind:src=item.linkaddress webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen="" allow="autoplay; fullscreen">
                 </iframe>
             </div>
         </div>
-        <div v-show="item.replytoggle" style="vertical-align: middle; border-top: 1px dotted rgb(183, 209, 242);">
-            <div style="padding:5px; margin-left:80px;">이름: 
-            <input name="name" value="" class="ui-widget-content ui-corner-all" style="width:80px;" maxlength="10"> &nbsp; 암호: 
-            <input name="pass" class="ui-widget-content ui-corner-all" style="width:80px;"> &nbsp; 
-            <span style="font-size:11px; color:#F88;">(이름 생략 가능 / 암호 생략 시 IP로 자동인증 됩니다.)</span>
-            <br>
-            내용: 
-            <input name="comm" class="comment_memo ui-widget-content ui-corner-all" style="width:480px;"> &nbsp; 
-            <input name="id" type="hidden" value="5ddfec8a1d295a71288b4567">
-            <span class="do_comment ui-widget-content ui-corner-all" style="cursor:pointer; padding:3px">&nbsp;
-             √ &nbsp;</span><span class="error" style="color:red;"></span>
-             <br>
-             <span style="color:red;">※ 추천유도!, 비방성 댓글, 허위사실, 비속어 등은 자제해 주세요.</span>
-             </div>
-        </div>
-        </div>
+        <!-- 댓글 등록 v-dialog -->
+        <v-dialog v-model="replytoggle" max-width = "400px" max-height = "30px" :retain-focus="false">
+            <v-card>
+                <v-card-title>
+                    <h2>댓글등록</h2>
+                </v-card-title>
+                    <v-card-text>
+                        <v-form class = "px-3">
+                            <div style="padding:5px; margin-left:80px;">이름: 
+                            <input v-model="reauthor" class="ui-widget-content ui-corner-all" style="width:200px;">
+                            &nbsp; 
+                            암호: 
+                            <input v-model ="repassword" class="ui-widget-content ui-corner-all" style="width:200px;"> &nbsp; 
+                            <br>
+                            내용: <input v-model="recontent" class="comment_memo ui-widget-content ui-corner-all" style="width:480px;"> &nbsp; 
+                        <br>
+                        <span style="color:red;">※ 추천유도!, 비방성 댓글, 허위사실, 비속어 등은 자제해 주세요.</span>
+                            <v-btn class = "success mx-0 mt-3" @click="savereplycontent(testnumber,reauthor,repassword,recontent)">등록</v-btn>
+                            </div>
+                        </v-form>
+                    </v-card-text>
+            </v-card>
+        </v-dialog> 
+        <!-- 여기서 이제 댓글리스트들을 반복문을 쫙돌면서 그냥 div공간을 할당시켜주면 된다 -->
+
     </div>
+</div>
 </template>
 
 <script>
@@ -107,14 +118,24 @@ export default {
     },
     data() {
         return {
-            testlink : "https://www.youtube.com/embed/Bhdcy2GoUFc",
             dialog : false,
             password : "",
-            deletetoggle : false
+            deletetoggle : false,
+            replytoggle : false,
+            testnumber : Number,
+            recontent : "", repassword : "", reauthor : ""
         }
     },
     methods : {
-        removeboardcontent(boardnumber,password) {
+        removebutton(boardnumber){
+                this.testnumber = boardnumber
+                this.deletetoggle = !this.deletetoggle
+        },
+        registerreplybutton(boardnumber) {
+            this.testnumber = boardnumber
+            this.replytoggle = !this.replytoggle
+        },
+        removeboardcontent(boardnumber,password) { 
             this.$emit("removeboardcontent",boardnumber,password)
             this.password = ""
         },
@@ -126,6 +147,10 @@ export default {
         },
         reportcntcontent(boardnumber,reportcnt) {
             this.$emit("reportcntcontent",boardnumber,reportcnt)
+        },
+        savereplycontent(boardnumber,reauthor,repassword,recontent) {
+            this.$emit("savereplycontent",boardnumber,reauthor,repassword,recontent)
+            this.reauthor = "", this.repassword = "", this.recontent = ""
         }
     }
 }
