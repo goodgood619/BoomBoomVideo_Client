@@ -1,9 +1,11 @@
 <template>
         <v-app>
            <boardheader :page="page" :total="total" @registercontent ="registercontent" @nextpagination ="nextpagination" @prevpagination="prevpagination"/>
-           <boardcontent :uploaddata="uploaddata" :replydata="replydata" @removeboardcontent = "removeboardcontent" @likeboardcontent = "likeboardcontent" 
+           <boardcontent :uploaddata="uploaddata" :replydata="replydata" :rereplydata="rereplydata" @removeboardcontent = "removeboardcontent" @likeboardcontent = "likeboardcontent" 
            @dislikeboardcontent ="dislikeboardcontent" @reportcntcontent="reportcntcontent"
-           @savereplycontent="savereplycontent" @saverereplycontent="saverereplycontent"/>
+           @savereplycontent="savereplycontent" @saverereplycontent="saverereplycontent"
+           @likereplycontent="likereplycontent" @likerereplycontent="likerereplycontent"
+           />
            <replycontent/>
         </v-app>
 </template>
@@ -19,6 +21,7 @@ export default {
         return {
             uploaddata : [],
             replydata : [],
+            rereplydata: [],
             page : 0,
             total : 0
         }
@@ -36,10 +39,10 @@ export default {
                     url : '/api/dataupload',
                     data : {page : this.page}
                 })
-                this.uploaddata = res.data.data[0].test
-                this.total = res.data.data[1].total / 3
-                this.replydata = res.data.data[2].test
-                alert(this.uploaddata)
+                this.uploaddata = res.data.uploaddata[0].uploaddata
+                this.rereplydata = res.data.rereplydata[0].rereply
+                this.total = res.data.totalboardcontent[0].totalboardcnt / 3
+                this.replydata = res.data.replydata[0].reply
             }
             catch(err) {
                 console.log(err)
@@ -63,6 +66,7 @@ export default {
                                 likenumber : aa.likenumber, linkaddress : aa.linkaddress, password : aa.password, reportcnt : aa.reportcnt, title : aa.title
                             }
                         ]
+                        alert('등록이 완료되었습니다')
                         this.dataupload()
                     }
                     else {
@@ -143,6 +147,45 @@ export default {
                 console.log(err)
             }
         },
+        async likereplycontent(reboardnumber,relikenumber){
+            try {
+                const res = await axios({
+                    method : 'post',
+                    url : '/api/likereplycontent',
+                    data : {reboardnumber : reboardnumber, relikenumber : relikenumber}
+                })
+                let idx = this.replydata.findIndex((obj=>obj.reboardnumber == reboardnumber))
+                if(res.data.test !=="no"){
+                    alert('댓글에 추천이 신청되었습니다')
+                    this.replydata[idx].relikenumber = res.data.test.relikenumber
+                } else {
+                    alert('이미 좋아요를 눌렀습니다, 다른 IP를 이용해주세요')
+                }
+            }
+            catch(err){
+                console.log(err)
+            }
+        },
+        async likerereplycontent(rereboardnumber,rerelikenumber){
+            try {
+                const res = await axios({
+                    method : 'post',
+                    url : '/api/likerereplycontent',
+                    data : {rereboardnumber : rereboardnumber, rerelikenumber : rerelikenumber}
+                })
+                let idx = this.rereplydata.findIndex((obj => obj.rereboardnumber == rereboardnumber))
+                if(res.data.test !== "no") {
+                    alert('답글에 추천이 신청되었습니다')
+                    this.rereplydata[idx].rerelikenumber = res.data.test.rerelikenumber
+                } else {
+                    alert('이미 좋아요를 눌렀습니다, 다른 IP를 이용해주세요')
+                }
+                
+            }
+            catch(err) {
+                console.log(err)
+            }
+        },
         async dislikeboardcontent(boardnumber,dislikenumber) {
             try {
                 const res = await axios({
@@ -200,12 +243,12 @@ export default {
                 console.log(err)
             }
         },
-        async saverereplycontent(boardnumber,boardreplynumber,rereauthor,rerepassword,rerecontent) {
+        async saverereplycontent(boardreplynumber,rereauthor,rerepassword,rerecontent) {
             try {
                 const res = await axios({
                     method : 'post',
                     url : '/api/saverereply',
-                    data : {boardnumber : boardnumber, boardreplynumber : boardreplynumber, rereauthor : rereauthor, rerepassword: rerepassword, rerecontent : rerecontent}
+                    data : { boardreplynumber : boardreplynumber, rereauthor : rereauthor, rerepassword: rerepassword, rerecontent : rerecontent}
                 })
                 alert('대댓글이 성공적으로 저장되었습니다')
             }

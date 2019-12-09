@@ -108,17 +108,34 @@
             <div v-for ="(item2,idx) in getreplycontent(item.boardnumber)" :key="idx">
                 <div>
                     <div style="position:relative; color:#77D; font-size:9pt; width:100%; background:#F0F0F0; padding:2px; border-top:1px solid #AAA; border-bottom:1px dotted #CCC;">{{item2.reauthor}} 
-                        <img title="답글" class="show_reply_comment" style="cursor:pointer; vertical-align:middle;" src="http://z.fow.kr/img/reply_comment.gif" @click="registerrereplycontent(item.boardnumber,item2.reboardnumber)">&nbsp;
+                        <img title="답글" class="show_reply_comment" style="cursor:pointer; vertical-align:middle;" src="http://z.fow.kr/img/reply_comment.gif" @click="registerrereplycontent(item2.reboardnumber)">&nbsp;
                         <div style="filter:alpha(opacity=70); opacity:0.7; color:#E5E5E5; position:absolute; top:3px; right:0px;">b8ed4ded 
-                            <a cid="5dedf1731d295ab90a8b4568" id="gc_5dedf1731d295ab90a8b4568" name="gc_5dedf1731d295ab90a8b4568" class="sbtn small good_comment" gc="0">
-                                <span style="color:#3333CC;">추천</span>
+                            <a class="sbtn small good_comment" gc="0">
+                                <span style="color:#3333CC;" @click="likereplycontent(item2.reboardnumber,item2.relikenumber)">추천{{item2.relikenumber}}</span>
                             </a>  
-                            <a cid="5dedf1731d295ab90a8b4568" class="sbtn small report_comment">
+                            <a class="sbtn small report_comment">
                                 <span style="color:#CC3333;">신고</span>
                             </a>
                         </div>
                     </div>
                     <div style="padding:5px 0px 10px 5px;">{{item2.recontent}}</div>
+                    <!-- 대댓글리스트 할당 -->
+                    <div v-for ="(item3,idx) in getrereplycontent(item2.reboardnumber)" :key="idx">
+                        <div style = "padding-left : 50px">
+                        <div style="position:relative; color:#77D; font-size:9pt; width:100%; background:#F0F0F0; padding:2px; border-top:1px solid #AAA; border-bottom:1px dotted #CCC;">{{item3.rereauthor}} 
+                        &nbsp;
+                            <div style="filter:alpha(opacity=70); opacity:0.7; color:#E5E5E5; position:absolute; top:3px; right:0px;">b8ed4ded 
+                                <a class="sbtn small good_comment" gc="0">
+                                    <span style="color:#3333CC;" @click="likerereplycontent(item3.rereboardnumber,item3.rerelikenumber)">추천{{item3.rerelikenumber}}</span>
+                                </a>  
+                                <a class="sbtn small report_comment">
+                                    <span style="color:#CC3333;">신고</span>
+                                </a>
+                            </div>
+                        </div>
+                    <div style="padding:5px 0px 10px 5px;">{{item3.rerecontent}}</div>
+                        </div>
+                    </div>
                     <!-- 대댓글 등록 v-dialog -->
                     <v-dialog v-model="rereplytoggle" max-width = "400px" max-height = "30px" :retain-focus="false">
                         <v-card>
@@ -136,7 +153,7 @@
                                         내용: <input v-model="rerecontent" class="comment_memo ui-widget-content ui-corner-all" style="width:480px;"> &nbsp; 
                                     <br>
                                     <span style="color:red;">※ 추천유도!, 비방성 댓글, 허위사실, 비속어 등은 자제해 주세요.</span>
-                                        <v-btn class = "success mx-0 mt-3" @click="saverereplycontent(testboardnumber,testboardreplynumber,rereauthor,rerepassword,rerecontent)">등록</v-btn>
+                                        <v-btn class = "success mx-0 mt-3" @click="saverereplycontent(testboardreplynumber,rereauthor,rerepassword,rerecontent)">등록</v-btn>
                                         </div>
                                     </v-form>
                                 </v-card-text>
@@ -155,7 +172,8 @@ import axios from 'axios'
 export default {
     props : {
         uploaddata : {type : Array, default : ()=>[]},
-        replydata : {type : Array,default : ()=>[]}
+        replydata : {type : Array,default : ()=>[]},
+        rereplydata : {type : Array,default : ()=>[]}
     },
     data() {
         return {
@@ -179,8 +197,7 @@ export default {
             this.testboardnumber = boardnumber
             this.replytoggle = !this.replytoggle
         },
-        registerrereplycontent(boardnumber,reboardnumber) {
-            this.testboardnumber = boardnumber
+        registerrereplycontent(reboardnumber) {
             this.testboardreplynumber = reboardnumber
             this.rereplytoggle = !this.rereplytoggle
         },
@@ -190,6 +207,12 @@ export default {
         },
         likeboardcontent(boardnumber,likenumber) {
             this.$emit("likeboardcontent",boardnumber,likenumber)
+        },
+        likereplycontent(reboardnumber,relikenumber) {
+            this.$emit("likereplycontent",reboardnumber,relikenumber)
+        },
+        likerereplycontent(rereboardnumber,rerelikenumber) {
+            this.$emit("likerereplycontent",rereboardnumber,rerelikenumber)
         },
         dislikeboardcontent(boardnumber,dislikenumber) {
             this.$emit("dislikeboardcontent",boardnumber,dislikenumber)
@@ -201,27 +224,36 @@ export default {
             this.$emit("savereplycontent",boardnumber,reauthor,repassword,recontent)
             this.reauthor = "", this.repassword = "", this.recontent = ""
         },
-        saverereplycontent(boardnumber,boardreplynumber,rereauthor,rerepassword,rerecontent) {
-            this.$emit("saverereplycontent",boardnumber,boardreplynumber,rereauthor,rerepassword,rerecontent)
+        saverereplycontent(boardreplynumber,rereauthor,rerepassword,rerecontent) {
+            this.$emit("saverereplycontent",boardreplynumber,rereauthor,rerepassword,rerecontent)
             this.rereauthor = "",this.rerepassword = "",this.rerecontent = ""
         },
         getreplycontent(boardnumber) {
-            let result = [];
+            let ret = [];
             for(let k in this.replydata) {
                 if(boardnumber === this.replydata[k].boardnumber) {
-                    result.push(this.replydata[k])
+                    ret.push(this.replydata[k])
                 }
             }
-            return result
+            return ret
         },
         getreplycnt(boardnumber) {
-            let result = 0
+            let ret = 0
             for(let k in this.replydata) {
                 if(boardnumber === this.replydata[k].boardnumber){
-                    result++
+                    ret++
                 }
             }
-            return result
+            return ret
+        },
+        getrereplycontent(reboardnumber) {
+            let ret = [];
+            for(let i in this.rereplydata) {
+                if(reboardnumber === this.rereplydata[i].reboardnumber) {
+                    ret.push(this.rereplydata[i])
+                }
+            }
+            return ret
         }
     }
 }
