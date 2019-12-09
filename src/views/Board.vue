@@ -1,9 +1,9 @@
 <template>
         <v-app>
            <boardheader :page="page" :total="total" @registercontent ="registercontent" @nextpagination ="nextpagination" @prevpagination="prevpagination"/>
-           <boardcontent :uploaddata="uploaddata" @removeboardcontent = "removeboardcontent" @likeboardcontent = "likeboardcontent" 
+           <boardcontent :uploaddata="uploaddata" :replydata="replydata" @removeboardcontent = "removeboardcontent" @likeboardcontent = "likeboardcontent" 
            @dislikeboardcontent ="dislikeboardcontent" @reportcntcontent="reportcntcontent"
-           @savereplycontent="savereplycontent"/>
+           @savereplycontent="savereplycontent" @saverereplycontent="saverereplycontent"/>
            <replycontent/>
         </v-app>
 </template>
@@ -38,6 +38,7 @@ export default {
                 })
                 this.uploaddata = res.data.data[0].test
                 this.total = res.data.data[1].total / 3
+                this.replydata = res.data.data[2].test
                 alert(this.uploaddata)
             }
             catch(err) {
@@ -198,7 +199,21 @@ export default {
             catch(err){
                 console.log(err)
             }
+        },
+        async saverereplycontent(boardnumber,boardreplynumber,rereauthor,rerepassword,rerecontent) {
+            try {
+                const res = await axios({
+                    method : 'post',
+                    url : '/api/saverereply',
+                    data : {boardnumber : boardnumber, boardreplynumber : boardreplynumber, rereauthor : rereauthor, rerepassword: rerepassword, rerecontent : rerecontent}
+                })
+                alert('대댓글이 성공적으로 저장되었습니다')
+            }
+            catch(err){
+                console.log(err)
+            }
         }
+        
     },
     mounted() {
         this.dataupload()
