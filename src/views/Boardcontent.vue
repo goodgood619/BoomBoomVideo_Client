@@ -1,24 +1,5 @@
 <template>
     <div class = "boardcontent">
-    <v-simple-table>
-        <template v-slot:default>
-      <thead>
-        <tr>
-          <th class="text-left">전체</th>
-          <th class="text-left">LoL</th>
-          <th class = "text-left">게임</th>
-          <th class = "text-left">배그</th>
-          <th class = "text-left">오버워치</th>
-          <th class= "text-left">유머</th>
-          <th class = "text-left">음악</th>
-          <th class = "text-left">감동</th>
-          <th class = "text-left">동물</th>
-          <th class = "text-left">스포츠</th>
-          <th class = "text-left">기타</th>
-        </tr>
-      </thead>
-    </template>
-    </v-simple-table>
     <div v-for = "(item,idx) in uploaddata" :key="idx">
     <div style = "position:relative; width:100%; height :90px; border-top : 1px solid rgb(135,177,226)">
         <!-- 좋아요 버튼 싫어요 버튼(추천) -->
@@ -68,7 +49,7 @@
             </v-card>
         </v-dialog> 
                 <div style="position:absolute; right:160px; top:10px;">
-                    <span class="send_report ui-widget-content ui-corner-all" style="background:#FDD; padding:3px; font-family:gulim; cursor:pointer;" @click="reportcntcontent(item.boardnumber,item.reportcnt)">신고</span>
+                    <span class="send_report ui-widget-content ui-corner-all" style="background:#FDD; padding:3px; font-family:gulim; cursor:pointer;" @click="reportcontent(item.boardnumber,item.reportcnt)">신고</span>
                     <span class="ui-widget-content ui-corner-all" style="background:#DDF; padding:3px; font-family:gulim;" title="">분류: {{item.category}}</span> 
                 </div>
         </div>
@@ -108,13 +89,15 @@
             <div v-for ="(item2,idx) in getreplycontent(item.boardnumber)" :key="idx">
                 <div>
                     <div style="position:relative; color:#77D; font-size:9pt; width:100%; background:#F0F0F0; padding:2px; border-top:1px solid #AAA; border-bottom:1px dotted #CCC;">{{item2.reauthor}} 
-                        <img title="답글" class="show_reply_comment" style="cursor:pointer; vertical-align:middle;" src="http://z.fow.kr/img/reply_comment.gif" @click="registerrereplycontent(item2.reboardnumber)">&nbsp;
+                        <img title="답글" class="show_reply_comment" style="cursor:pointer; vertical-align:middle;" src="http://z.fow.kr/img/reply_comment.gif" 
+                        @click="registerrereplycontent(item.boardnumber,item2.reboardnumber)">&nbsp;
+                        <img title="삭제" class="delete_comment" style=" vertical-align:middle;" src="http://z.fow.kr/img/delete.gif" @click="removereplybutton(item2.reboardnumber)">
                         <div style="filter:alpha(opacity=70); opacity:0.7; color:#E5E5E5; position:absolute; top:3px; right:0px;">b8ed4ded 
                             <a class="sbtn small good_comment" gc="0">
                                 <span style="color:#3333CC;" @click="likereplycontent(item2.reboardnumber,item2.relikenumber)">추천{{item2.relikenumber}}</span>
                             </a>  
                             <a class="sbtn small report_comment">
-                                <span style="color:#CC3333;">신고</span>
+                                <span style="color:#CC3333;" @click="reportreplycontent(item2.reboardnumber,item2.re_reportcnt)">신고</span>
                             </a>
                         </div>
                     </div>
@@ -124,12 +107,13 @@
                         <div style = "padding-left : 50px">
                         <div style="position:relative; color:#77D; font-size:9pt; width:100%; background:#F0F0F0; padding:2px; border-top:1px solid #AAA; border-bottom:1px dotted #CCC;">{{item3.rereauthor}} 
                         &nbsp;
-                            <div style="filter:alpha(opacity=70); opacity:0.7; color:#E5E5E5; position:absolute; top:3px; right:0px;">b8ed4ded 
+                        <img title="삭제" class="delete_comment" style=" vertical-align:middle;" src="http://z.fow.kr/img/delete.gif" @click="removerereplybutton(item3.rereboardnumber)">
+                            <div style="filter:alpha(opacity=70); opacity:0.7; color:#E5E5E5; position:absolute; top:3px; right:0px;">
                                 <a class="sbtn small good_comment" gc="0">
                                     <span style="color:#3333CC;" @click="likerereplycontent(item3.rereboardnumber,item3.rerelikenumber)">추천{{item3.rerelikenumber}}</span>
                                 </a>  
                                 <a class="sbtn small report_comment">
-                                    <span style="color:#CC3333;">신고</span>
+                                    <span style="color:#CC3333;" @click="reportrereplycontent(item3.rereboardnumber,item3.rere_reportcnt)">신고</span>
                                 </a>
                             </div>
                         </div>
@@ -153,12 +137,42 @@
                                         내용: <input v-model="rerecontent" class="comment_memo ui-widget-content ui-corner-all" style="width:480px;"> &nbsp; 
                                     <br>
                                     <span style="color:red;">※ 추천유도!, 비방성 댓글, 허위사실, 비속어 등은 자제해 주세요.</span>
-                                        <v-btn class = "success mx-0 mt-3" @click="saverereplycontent(testboardreplynumber,rereauthor,rerepassword,rerecontent)">등록</v-btn>
+                                        <v-btn class = "success mx-0 mt-3" @click="saverereplycontent(testboardnumber,testboardreplynumber,rereauthor,rerepassword,rerecontent)">등록</v-btn>
                                         </div>
                                     </v-form>
                                 </v-card-text>
                         </v-card>
                     </v-dialog> 
+                    <!-- 댓글 삭제 dialog-->
+                    <v-dialog v-model="removereplytoggle" max-width = "200px" max-height = "30px" :retain-focus="false">
+                        <v-card>
+                            <v-card-title>
+                                <h2>댓글 삭제</h2>
+                            </v-card-title>
+                        <v-card-text>
+                            <v-form class = "px-3">
+                                <v-textarea label = "암호" v-model="password"></v-textarea>
+                                <v-btn class = "success mx-0 mt-3" @click="removeboardreplycontent(testboardreplynumber,password)">삭제</v-btn>
+                                <v-btn class = "cancel mx-3 mt-3" @click="removereplytoggle = false">취소</v-btn>
+                            </v-form>
+                        </v-card-text>
+                    </v-card>
+                </v-dialog> 
+                <!-- 대댓글 삭제 dialog -->
+                <v-dialog v-model="removerereplytoggle" max-width = "200px" max-height = "30px" :retain-focus="false">
+                        <v-card>
+                            <v-card-title>
+                                <h2>대댓글 삭제</h2>
+                            </v-card-title>
+                        <v-card-text>
+                            <v-form class = "px-3">
+                                <v-textarea label = "암호" v-model="password"></v-textarea>
+                                <v-btn class = "success mx-0 mt-3" @click="removeboardrereplycontent(testboardrereplynumber,password)">삭제</v-btn>
+                                <v-btn class = "cancel mx-3 mt-3" @click="removerereplytoggle = false">취소</v-btn>
+                            </v-form>
+                        </v-card-text>
+                    </v-card>
+                </v-dialog> 
                 </div>
             </div>
         </div>
@@ -173,7 +187,7 @@ export default {
     props : {
         uploaddata : {type : Array, default : ()=>[]},
         replydata : {type : Array,default : ()=>[]},
-        rereplydata : {type : Array,default : ()=>[]}
+        rereplydata : {type : Array,default : ()=>[]},
     },
     data() {
         return {
@@ -181,9 +195,12 @@ export default {
             password : "",
             deletetoggle : false,
             replytoggle : false,
+            removereplytoggle : false,
+            removerereplytoggle : false,
             rereplytoggle :false,
             testboardnumber : Number,
             testboardreplynumber : Number,
+            testboardrereplynumber : Number,
             recontent : "", repassword : "", reauthor : "",
             rerecontent :"" , rerepassword : "",rereauthor : ""
         }
@@ -197,12 +214,29 @@ export default {
             this.testboardnumber = boardnumber
             this.replytoggle = !this.replytoggle
         },
-        registerrereplycontent(reboardnumber) {
+        removereplybutton(reboardnumber) {
+            this.testboardreplynumber = reboardnumber
+            this.removereplytoggle = !this.removereplytoggle
+        },
+        removerereplybutton(rereboardnumber){
+            this.testboardrereplynumber = rereboardnumber
+            this.removerereplytoggle = !this.removerereplytoggle
+        },
+        registerrereplycontent(boardnumber,reboardnumber) {
+            this.testboardnumber = boardnumber
             this.testboardreplynumber = reboardnumber
             this.rereplytoggle = !this.rereplytoggle
         },
         removeboardcontent(boardnumber,password) { 
             this.$emit("removeboardcontent",boardnumber,password)
+            this.password = ""
+        },
+        removeboardreplycontent(reboardnumber,password) {
+            this.$emit("removeboardreplycontent",reboardnumber,password)
+            this.password = ""
+        },
+        removeboardrereplycontent(rereboardnumber,password){
+            this.$emit("removeboardrereplycontent",rereboardnumber,password)
             this.password = ""
         },
         likeboardcontent(boardnumber,likenumber) {
@@ -217,15 +251,21 @@ export default {
         dislikeboardcontent(boardnumber,dislikenumber) {
             this.$emit("dislikeboardcontent",boardnumber,dislikenumber)
         },
-        reportcntcontent(boardnumber,reportcnt) {
-            this.$emit("reportcntcontent",boardnumber,reportcnt)
+        reportcontent(boardnumber,reportcnt) {
+            this.$emit("reportcontent",boardnumber,reportcnt)
+        },
+        reportreplycontent(reboardnumber,re_reportcnt) {
+            this.$emit("reportreplycontent",reboardnumber,re_reportcnt)
+        },
+        reportrereplycontent(rereboardnumber,rere_reportcnt) {
+            this.$emit("reportrereplycontent",rereboardnumber,rere_reportcnt)
         },
         savereplycontent(boardnumber,reauthor,repassword,recontent) {
             this.$emit("savereplycontent",boardnumber,reauthor,repassword,recontent)
             this.reauthor = "", this.repassword = "", this.recontent = ""
         },
-        saverereplycontent(boardreplynumber,rereauthor,rerepassword,rerecontent) {
-            this.$emit("saverereplycontent",boardreplynumber,rereauthor,rerepassword,rerecontent)
+        saverereplycontent(boardnumber,boardreplynumber,rereauthor,rerepassword,rerecontent) {
+            this.$emit("saverereplycontent",boardnumber,boardreplynumber,rereauthor,rerepassword,rerecontent)
             this.rereauthor = "",this.rerepassword = "",this.rerecontent = ""
         },
         getreplycontent(boardnumber) {

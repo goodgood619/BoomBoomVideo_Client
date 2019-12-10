@@ -1,9 +1,36 @@
 <template>
     <div id = "Boardheader">
-        <v-dialog v-model ="dialog" max-width = "400px" max-height = "50px">
-            <template v-slot:activator="{on}">
-            <v-btn color = "red" dark v-on="on">영상등록</v-btn>
-            </template>
+        <div id = "header">
+         <v-btn color = "red" dark @click="onclick()">영상등록</v-btn>
+         <div style = "position:absolute; right : 0px; top :0px">
+            <v-btn v-show="page>0" @click="prevpagination">이전</v-btn>
+            <v-btn color="yellow">{{page}}</v-btn>
+            <v-btn v-show="page<total-1" @click="nextpagination">다음</v-btn>
+         </div>
+         <v-dialog v-model="overlay" persistent content-class="centered-dialog">
+            <v-progress-circular :width="50" :size="50" color="red" indeterminate v-show="overlay"></v-progress-circular>
+         </v-dialog>
+         <v-simple-table>
+    <template v-slot:default>
+      <thead>
+        <tr>
+          <v-btn flat-small :class="{'active': selectedtoggle == 0}" @click="allupload(0)">전체</v-btn>
+          <v-btn flat-small :class="{'active': selectedtoggle == 1}" @click="lolupload(1)">LoL</v-btn>
+          <v-btn flat-small :class="{'active': selectedtoggle == 2}" @click="gameupload(2)">게임</v-btn>
+          <v-btn flat-small :class="{'active': selectedtoggle == 3}" @click="bgroundupload(3)">배그</v-btn>
+          <v-btn flat-small :class="{'active': selectedtoggle == 4}" @click="owatchupload(4)">오버워치</v-btn>
+          <v-btn flat-small :class="{'active': selectedtoggle == 5}" @click="humordataupload(5)">유머</v-btn>
+          <v-btn flat-small :class="{'active': selectedtoggle == 6}" @click="musicupload(6)">음악</v-btn>
+          <v-btn flat-small :class="{'active': selectedtoggle == 7}" @click="impressupload(7)">감동</v-btn>
+          <v-btn flat-small :class="{'active': selectedtoggle == 8}" @click="animalupload(8)">동물</v-btn>
+          <v-btn flat-small :class="{'active': selectedtoggle == 9}" @click="sportsupload(9)">스포츠</v-btn>
+          <v-btn flat-small :class="{'active': selectedtoggle == 10}" @click="etcupload(10)">기타</v-btn>
+        </tr>
+      </thead>
+    </template>
+    </v-simple-table>
+        </div>
+            <v-dialog v-model ="dialog" max-width = "400px" max-height = "50px">
             <v-card>
                 <v-card-title>
                     <h2>FOW 게시물등록</h2>
@@ -21,14 +48,6 @@
                     </v-card-text>
             </v-card>
         </v-dialog>
-        <div class="case-slider__navigation">
-            <li class="next" v-show="page<total-1">
-                <button @click="nextpagination">next</button>
-            </li>
-            <li class="prev" v-show="page>0">
-                <button @click="prevpagination">previous</button>
-            </li>
-        </div>
     </div>
 </template>
 
@@ -38,21 +57,26 @@ import boardcontent from './Boardcontent'
 export default {
     props : {
         page : {type:Number, default : 0},
-        total : {type:Number, default : 0}
+        total : {type:Number, default : 0},
+        overlay : {type : Boolean, default: false},
+        selectedcategory : {type :String, default : "전체"}
     },
     data() {
         return {
             dialog : false,
+            selectedtogglearray : [0,1,2,3,4,5,6,7,8,9,10],
+            selectedtoggle : Number,
             items : ['LOL','게임','배그','오버워치','유머','음악','감동','동물','스포츠','기타'],
             category : "", linkaddress : "", title : "", author : "", password : "",
         }
     },
     methods : {
         onclick() {
-            alert('test')
+            this.dialog = !this.dialog
         },
-        async registercontent() {
+        registercontent() {
             if(this.linkaddress !== ""){
+                this.overlay = true
                 this.$emit('registercontent',this.category,this.linkaddress,this.title,this.author,this.password)
                 this.category = "", this.linkaddress = "", this.title = "", this.author = "", this.password = ""
             }
@@ -60,16 +84,70 @@ export default {
                 alert('link를 반드시 입력해주세요')
             }
         },
-        async nextpagination(){
-            this.$emit('nextpagination',this.page)
+        nextpagination(){
+            this.$emit('nextpagination',this.page,this.selectedcategory)
         },
-        async prevpagination(){
-            this.$emit('prevpagination',this.page)
+        prevpagination(){
+            this.$emit('prevpagination',this.page,this.selectedcategory)
+        },
+        allupload(selected) {
+            this.selectedtoggle = selected
+            this.$emit('allupload',this.selectedcategory)  
+        },
+        lolupload(selected) {
+            this.selectedtoggle = selected
+            this.$emit('lolupload',this.selectedcategory)  
+        },
+        gameupload(selected){
+            this.selectedtoggle = selected
+            this.$emit('gameupload',this.selectedcategory)
+        },
+        bgroundupload(selected) {
+            this.selectedtoggle = selected
+            this.$emit('bgroundupload',this.selectedcategory)
+        },
+        owatchupload(selected) {
+            this.selectedtoggle = selected
+            this.$emit('owatchupload',this.selectedcategory)
+        },  
+        humordataupload(selected) {
+            this.selectedtoggle = selected
+            this.$emit("humordataupload",this.page,this.selectedcategory)
+        },
+        musicupload(selected) {
+            this.selectedtoggle = selected
+            this.$emit('musicupload',this.selectedcategory)
+        },
+        impressupload(selected) {
+            this.selectedtoggle = selected
+            this.$emit('impressupload',this.selectedcategory)
+        },
+        animalupload(selected) {
+            this.selectedtoggle = selected
+            this.$emit('animalupload',this.selectedcategory)
+        },
+        sportsupload(selected) {
+            this.selectedtoggle = selected
+            this.$emit('sportsupload',this.selectedcategory)
+        },
+        etcupload(selected) {
+            this.selectedtoggle = selected
+            this.$emit('etcupload',this.selectedcategory)
         }
+
     }
 }
 </script>
 
 <style scoped>
-
+.v-dialog.centered-dialog
+ {
+    background: red;
+    box-shadow: none;
+    border-radius: 6px;
+    width: 30px;
+  }
+  .active {
+      color : red;
+  }
 </style>
