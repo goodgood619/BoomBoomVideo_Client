@@ -29,6 +29,12 @@
       </thead>
     </template>
     </v-simple-table>
+    <div id = "r_side" style = "position: absolute; top :100px; left: 850px ; width :170px">
+        <div :class="{'active': selectedtoggle == 11}" @click="likeupload(11)" style="cursor:pointer;text-align:center; background:#E8FFE0; width:150px; padding:4px; border:1px solid #CEA; margin:0 5px 5px 5px;">좋아요순</div>
+        <div :class="{'active': selectedtoggle == 12}" @click="hotupload(12)" style="cursor:pointer;text-align:center; background:#E8FFE0; width:150px; padding:4px; border:1px solid #CEA; margin:0 5px 5px 5px;">HOT순</div>
+        <div :class="{'active': selectedtoggle == 13}" @click="searchupload(13)" style="cursor:pointer;text-align:center; background:#E8EFF0; width:150px; padding:4px; border:1px solid #CEA; margin:0 5px 5px 5px;">검색</div>
+        <div :class="{'active': selectedtoggle == 14}" @click="registerupload(14)" style="cursor:pointer;text-align:center; background:#F8EFE0; width:150px; padding:4px; border:1px solid #CEA; margin:0 5px 15px 5px;">등록순</div>
+    </div>
         </div>
             <v-dialog v-model ="dialog" max-width = "400px" max-height = "50px">
             <v-card>
@@ -64,7 +70,7 @@ export default {
     data() {
         return {
             dialog : false,
-            selectedtogglearray : [0,1,2,3,4,5,6,7,8,9,10],
+            selectedtogglearray : [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14],
             selectedtoggle : Number,
             items : ['LOL','게임','배그','오버워치','유머','음악','감동','동물','스포츠','기타'],
             category : "", linkaddress : "", title : "", author : "", password : "",
@@ -133,8 +139,20 @@ export default {
         etcupload(selected) {
             this.selectedtoggle = selected
             this.$emit('etcupload')
+        },
+        likeupload(selected) {
+            this.selectedtoggle = selected
+            this.$emit('likeupload')
+        },
+        hotupload(selected) {
+            this.selectedtoggle = selected
+        },
+        searchupload(selected) {
+            this.selectedtoggle = selected
+        },
+        registerupload(selected) {
+            this.selectedtoggle = selected
         }
-
     }
 }
 </script>

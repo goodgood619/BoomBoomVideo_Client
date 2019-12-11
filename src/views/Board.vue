@@ -3,6 +3,7 @@
            <boardheader :page="page" :total="total" :overlay="overlay" :selectedcategory="selectedcategory" @registercontent ="registercontent" @nextpagination ="nextpagination" @prevpagination="prevpagination"
             @allupload ="allupload" @lolupload="lolupload" @gameupload="gameupload" @bgroundupload="bgroundupload" @owatchupload="owatchupload" 
             @humordataupload="humordataupload" @musicupload="musicupload" @impressupload="impressupload" @animalupload="animalupload" @sportsupload="sportsupload" @etcupload="etcupload"
+            @likeupload="likeupload"
            />
            <boardcontent :uploaddata="uploaddata" :replydata="replydata" :rereplydata="rereplydata" @removeboardcontent="removeboardcontent" @likeboardcontent ="likeboardcontent" 
            @dislikeboardcontent ="dislikeboardcontent" @reportcontent="reportcontent"
@@ -78,8 +79,10 @@ export default {
                     url : '/api/lolupload',
                     data : {category : 'LOL'}
                 })
-                alert(res.data.test)
-                this.uploaddata = res.data.test
+                this.uploaddata = res.data.uploaddata[0].uploaddata
+                this.replydata = res.data.replydata[0].reply
+                this.rereplydata = res.data.rereplydata[0].rereply
+                this.total = res.data.totalboardcontent[0].totalboardcnt / 3
                 this.selectedcategory = "LOL"
                 this.page = 0
             } catch(err) {
@@ -93,8 +96,10 @@ export default {
                     url : '/api/gameupload',
                     data : {category : "게임"}
                 })
-                alert(res.data.test)
-                this.uploaddata = res.data.test
+                this.uploaddata = res.data.uploaddata[0].uploaddata
+                this.replydata = res.data.replydata[0].reply
+                this.rereplydata = res.data.rereplydata[0].rereply
+                this.total = res.data.totalboardcontent[0].totalboardcnt / 3
                 this.selectedcategory = "게임"
                 this.page = 0
             } catch(err) {
@@ -108,8 +113,10 @@ export default {
                     url : '/api/bgroundupload',
                     data : {category : "배그"}
                 })
-                alert(res.data.test)
-                this.uploaddata = res.data.test
+                this.uploaddata = res.data.uploaddata[0].uploaddata
+                this.replydata = res.data.replydata[0].reply
+                this.rereplydata = res.data.rereplydata[0].rereply
+                this.total = res.data.totalboardcontent[0].totalboardcnt / 3
                 this.selectedcategory = "배그"
                 this.page = 0
             } catch(err) {
@@ -123,8 +130,10 @@ export default {
                     url : '/api/owatchupload',
                     data : {category : "오버워치"}
                 })
-                alert(res.data.test)
-                this.uploaddata = res.data.test
+                this.uploaddata = res.data.uploaddata[0].uploaddata
+                this.replydata = res.data.replydata[0].reply
+                this.rereplydata = res.data.rereplydata[0].rereply
+                this.total = res.data.totalboardcontent[0].totalboardcnt / 3
                 this.selectedcategory = "오버워치"
                 this.page = 0
             } catch(err) {
@@ -138,7 +147,6 @@ export default {
                     url : '/api/humordataupload',
                     data : {category : '유머'} 
                 })
-                alert(res.data.test)
                 this.uploaddata = res.data.uploaddata[0].uploaddata
                 this.replydata = res.data.replydata[0].reply
                 this.rereplydata = res.data.rereplydata[0].rereply
@@ -156,8 +164,10 @@ export default {
                     url : '/api/musicupload',
                     data : {category : "음악"}
                 })
-                alert(res.data.test)
-                this.uploaddata = res.data.test
+                this.uploaddata = res.data.uploaddata[0].uploaddata
+                this.replydata = res.data.replydata[0].reply
+                this.rereplydata = res.data.rereplydata[0].rereply
+                this.total = res.data.totalboardcontent[0].totalboardcnt / 3
                 this.selectedcategory = "음악"
                 this.page = 0
             } catch(err) {
@@ -171,8 +181,10 @@ export default {
                     url : '/api/impressupload',
                     data : {category : "감동"}
                 })
-                alert(res.data.test)
-                this.uploaddata = res.data.test
+                this.uploaddata = res.data.uploaddata[0].uploaddata
+                this.replydata = res.data.replydata[0].reply
+                this.rereplydata = res.data.rereplydata[0].rereply
+                this.total = res.data.totalboardcontent[0].totalboardcnt / 3
                 this.selectedcategory = "감동"
                 this.page = 0
             } catch(err) {
@@ -186,8 +198,10 @@ export default {
                     url : '/api/animalupload',
                     data : {category : "동물"}
                 })
-                alert(res.data.test)
-                this.uploaddata = res.data.test
+                this.uploaddata = res.data.uploaddata[0].uploaddata
+                this.replydata = res.data.replydata[0].reply
+                this.rereplydata = res.data.rereplydata[0].rereply
+                this.total = res.data.totalboardcontent[0].totalboardcnt / 3
                 this.selectedcategory = "동물"
                 this.page = 0
             } catch(err) {
@@ -201,8 +215,10 @@ export default {
                     url : '/api/sportsupload',
                     data : {category : "스포츠"}
                 })
-                alert(res.data.test)
-                this.uploaddata = res.data.test
+                this.uploaddata = res.data.uploaddata[0].uploaddata
+                this.replydata = res.data.replydata[0].reply
+                this.rereplydata = res.data.rereplydata[0].rereply
+                this.total = res.data.totalboardcontent[0].totalboardcnt / 3
                 this.selectedcategory = "스포츠"
                 this.page = 0
             } catch(err) {
@@ -216,10 +232,24 @@ export default {
                     url : '/api/etcupload',
                     data : {category : "기타"}
                 })
-                alert(res.data.test)
-                this.uploaddata = res.data.test
+                this.uploaddata = res.data.uploaddata[0].uploaddata
+                this.replydata = res.data.replydata[0].reply
+                this.rereplydata = res.data.rereplydata[0].rereply
+                this.total = res.data.totalboardcontent[0].totalboardcnt / 3
                 this.selectedcategory = "기타"
                 this.page = 0
+            } catch(err) {
+                console.log(err)
+            }
+        },
+        async likeupload() {
+            try {
+                const res = await axios({
+                    method : 'post',
+                    url : '/api/likeupload'
+                })
+                alert(res.data.test)
+                
             } catch(err) {
                 console.log(err)
             }

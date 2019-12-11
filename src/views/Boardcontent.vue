@@ -177,13 +177,6 @@
             </div>
         </div>
     </div>
-    <div id = "r_side" style = "position: absolute; top :100px; left: 850px ; width :170px">
-        <div class="hit_movie" sname="" style="cursor:pointer;text-align:center; background:#E8FFE0; width:150px; padding:4px; border:1px solid #CEA; margin:0 5px 5px 5px;">All</div>
-        <div class="hit_movie" sname="ByScore" style="cursor:pointer;text-align:center; background:#E8FFE0; width:150px; padding:4px; border:1px solid #CEA; margin:0 5px 5px 5px;">좋아요순</div>
-        <div class="hit_movie" sname="ByHot" style="cursor:pointer;text-align:center; background:#E8FFE0; width:150px; padding:4px; border:1px solid #CEA; margin:0 5px 5px 5px;">HOT순</div>
-        <div class="search_movie" style="cursor:pointer;text-align:center; background:#E8EFF0; width:150px; padding:4px; border:1px solid #CEA; margin:0 5px 5px 5px;">검색</div>
-        <div class="hit_movie" sname="ByTime" style="cursor:pointer;text-align:center; background:#F8EFE0; width:150px; padding:4px; border:1px solid #CEA; margin:0 5px 15px 5px;">등록순</div>
-    </div>
 </div>
 </template>
 
