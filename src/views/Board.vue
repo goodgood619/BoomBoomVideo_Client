@@ -11,14 +11,12 @@
            @reportreplycontent="reportreplycontent" @removeboardreplycontent="removeboardreplycontent"
            @removeboardrereplycontent="removeboardrereplycontent" @reportrereplycontent="reportrereplycontent"
            />
-           <replycontent/>
         </v-app>
 </template>
 
 <script>
 import boardheader from "./Boardheader"
 import boardcontent from "./Boardcontent"
-import replycontent from "./Replycontent"
 import axios from 'axios'
 import { link } from 'fs'
 export default {
@@ -36,7 +34,6 @@ export default {
     components : {
         boardheader,
         boardcontent,
-        replycontent
     },
     watch: {
         uploaddata() {
@@ -74,17 +71,156 @@ export default {
                 console.log(err)
             }
         },
-        async humordataupload(page) {
+        async lolupload() {
+            try {
+                const res = await axios({
+                    method : 'post',
+                    url : '/api/lolupload',
+                    data : {category : 'LOL'}
+                })
+                alert(res.data.test)
+                this.uploaddata = res.data.test
+                this.selectedcategory = "LOL"
+                this.page = 0
+            } catch(err) {
+                console.log(err)
+            }
+        },
+        async gameupload() {
+            try {
+                const res = await axios({
+                    method : 'post',
+                    url : '/api/gameupload',
+                    data : {category : "게임"}
+                })
+                alert(res.data.test)
+                this.uploaddata = res.data.test
+                this.selectedcategory = "게임"
+                this.page = 0
+            } catch(err) {
+                console.log(err)
+            }
+        },
+        async bgroundupload() {
+            try {
+                const res = await axios({
+                    method : 'post',
+                    url : '/api/bgroundupload',
+                    data : {category : "배그"}
+                })
+                alert(res.data.test)
+                this.uploaddata = res.data.test
+                this.selectedcategory = "배그"
+                this.page = 0
+            } catch(err) {
+                console.log(err)
+            }
+        },
+        async owatchupload() {
+            try {
+                const res = await axios({
+                    method : 'post',
+                    url : '/api/owatchupload',
+                    data : {category : "오버워치"}
+                })
+                alert(res.data.test)
+                this.uploaddata = res.data.test
+                this.selectedcategory = "오버워치"
+                this.page = 0
+            } catch(err) {
+                console.log(err)
+            }
+        },
+        async humordataupload() {
             try {
                 const res = await axios({
                     method : 'post',
                     url : '/api/humordataupload',
-                    data : {category : '유머',page : page} 
+                    data : {category : '유머'} 
+                })
+                alert(res.data.test)
+                this.uploaddata = res.data.uploaddata[0].uploaddata
+                this.replydata = res.data.replydata[0].reply
+                this.rereplydata = res.data.rereplydata[0].rereply
+                this.total = res.data.totalboardcontent[0].totalboardcnt / 3
+                this.selectedcategory = "유머"
+                this.page = 0
+            } catch(err){
+                console.log(err)
+            }
+        },
+        async musicupload() {
+            try {
+                const res = await axios({
+                    method : 'post',
+                    url : '/api/musicupload',
+                    data : {category : "음악"}
                 })
                 alert(res.data.test)
                 this.uploaddata = res.data.test
-                this.selectedcategory = "유머"
-            } catch(err){
+                this.selectedcategory = "음악"
+                this.page = 0
+            } catch(err) {
+                console.log(err)
+            }
+        },
+        async impressupload() {
+            try {
+                const res = await axios({
+                    method : 'post',
+                    url : '/api/impressupload',
+                    data : {category : "감동"}
+                })
+                alert(res.data.test)
+                this.uploaddata = res.data.test
+                this.selectedcategory = "감동"
+                this.page = 0
+            } catch(err) {
+                console.log(err)
+            }
+        },
+        async animalupload() {
+            try {
+                const res = await axios({
+                    method : 'post',
+                    url : '/api/animalupload',
+                    data : {category : "동물"}
+                })
+                alert(res.data.test)
+                this.uploaddata = res.data.test
+                this.selectedcategory = "동물"
+                this.page = 0
+            } catch(err) {
+                console.log(err)
+            }
+        },
+        async sportsupload() {
+            try {
+                const res = await axios({
+                    method : 'post',
+                    url : '/api/sportsupload',
+                    data : {category : "스포츠"}
+                })
+                alert(res.data.test)
+                this.uploaddata = res.data.test
+                this.selectedcategory = "스포츠"
+                this.page = 0
+            } catch(err) {
+                console.log(err)
+            }
+        },
+        async etcupload() {
+            try {
+                const res = await axios({
+                    method : 'post',
+                    url : '/api/etcupload',
+                    data : {category : "기타"}
+                })
+                alert(res.data.test)
+                this.uploaddata = res.data.test
+                this.selectedcategory = "기타"
+                this.page = 0
+            } catch(err) {
                 console.log(err)
             }
         },
@@ -168,8 +304,9 @@ export default {
                     url :'/api/nextpagination',
                     data : {page : aa ,category : selectedcategory}
                 })
-                alert(res.data.test)
-                this.uploaddata = res.data.test
+                this.uploaddata = res.data.uploaddata[0].uploaddata
+                this.replydata = res.data.replydata[0].reply
+                this.rereplydata = res.data.rereplydata[0].rereply
                 this.page = aa
                 this.selectedcategory = selectedcategory
             }
@@ -186,10 +323,12 @@ export default {
                     url : '/api/pastpagination',
                     data : {page : aa , category : selectedcategory}
                 })
-                alert(res.data.test)
-                this.uploaddata = res.data.test
+                this.uploaddata = res.data.uploaddata[0].uploaddata
+                this.replydata = res.data.replydata[0].reply
+                this.rereplydata = res.data.rereplydata[0].rereply
                 this.page = aa
                 this.selectedcategory = selectedcategory
+
             }
             catch(err){
                 console.log(err)
@@ -306,8 +445,8 @@ export default {
                     data : {reboardnumber : reboardnumber, re_reportcnt : re_reportcnt}
                 })
                 let idx = this.replydata.findIndex((obj=> obj.reboardnumber == reboardnumber))
-                if(res.data.test.re_reportcnt>=5) {
-                    alert('신고 횟수가 5회를 넘었습니다, 이 댓글은 블라인드 처리됩니다')
+                if(res.data.test.re_reportcnt>=5 ) {
+                    alert('신고 횟수가 5회가 되었습니다, 이 댓글은 블라인드 처리됩니다')
                 }
                 else if(res.data.test !== "no"){
                     alert('댓글에 대해 신고가 반영되었습니다')
@@ -329,8 +468,9 @@ export default {
                     data : {rereboardnumber : rereboardnumber, rere_reportcnt : rere_reportcnt}
                 })
                 let idx = this.rereplydata.findIndex((obj=> obj.rereboardnumber == rereboardnumber))
-                if(res.data.test.rere_reportcnt>=5) {
-                    alert('신고 횟수가 5회가 넘었습니다, 이 댓글은 블라인드 처리됩니다')
+                if(res.data.test.rere_reportcnt >= 5) {
+                    alert('신고 횟수가 5회가 되었습니다, 이 댓글은 블라인드 처리됩니다')
+
                 }
                 else if(res.data.test !== "no") {
                     alert('대댓글에 대해 신고가 반영되었습니다')

@@ -1,5 +1,5 @@
 <template>
-    <div class = "boardcontent">
+<div class = "boardcontent">
     <div v-for = "(item,idx) in uploaddata" :key="idx">
     <div style = "position:relative; width:100%; height :90px; border-top : 1px solid rgb(135,177,226)">
         <!-- 좋아요 버튼 싫어요 버튼(추천) -->
@@ -101,7 +101,7 @@
                             </a>
                         </div>
                     </div>
-                    <div style="padding:5px 0px 10px 5px;">{{item2.recontent}}</div>
+                    <div style="padding:5px 0px 10px 5px;" :class="{'blindforreport':item2.re_reportcnt >= 5}">{{item2.recontent}}</div>
                     <!-- 대댓글리스트 할당 -->
                     <div v-for ="(item3,idx) in getrereplycontent(item2.reboardnumber)" :key="idx">
                         <div style = "padding-left : 50px">
@@ -117,7 +117,7 @@
                                 </a>
                             </div>
                         </div>
-                    <div style="padding:5px 0px 10px 5px;">{{item3.rerecontent}}</div>
+                    <div style="padding:5px 0px 10px 5px;" :class="{'blindforreport':item3.rere_reportcnt >= 5}">{{item3.rerecontent}}</div>
                         </div>
                     </div>
                     <!-- 대댓글 등록 v-dialog -->
@@ -176,6 +176,13 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div id = "r_side" style = "position: absolute; top :100px; left: 850px ; width :170px">
+        <div class="hit_movie" sname="" style="cursor:pointer;text-align:center; background:#E8FFE0; width:150px; padding:4px; border:1px solid #CEA; margin:0 5px 5px 5px;">All</div>
+        <div class="hit_movie" sname="ByScore" style="cursor:pointer;text-align:center; background:#E8FFE0; width:150px; padding:4px; border:1px solid #CEA; margin:0 5px 5px 5px;">좋아요순</div>
+        <div class="hit_movie" sname="ByHot" style="cursor:pointer;text-align:center; background:#E8FFE0; width:150px; padding:4px; border:1px solid #CEA; margin:0 5px 5px 5px;">HOT순</div>
+        <div class="search_movie" style="cursor:pointer;text-align:center; background:#E8EFF0; width:150px; padding:4px; border:1px solid #CEA; margin:0 5px 5px 5px;">검색</div>
+        <div class="hit_movie" sname="ByTime" style="cursor:pointer;text-align:center; background:#F8EFE0; width:150px; padding:4px; border:1px solid #CEA; margin:0 5px 15px 5px;">등록순</div>
     </div>
 </div>
 </template>
@@ -270,9 +277,12 @@ export default {
         },
         getreplycontent(boardnumber) {
             let ret = [];
-            for(let k in this.replydata) {
-                if(boardnumber === this.replydata[k].boardnumber) {
-                    ret.push(this.replydata[k])
+            for(let i in this.replydata) {
+                if(boardnumber === this.replydata[i].boardnumber) {
+                    if(this.replydata[i].re_reportcnt >= 5){
+                        this.replydata[i].recontent = "다수의 신고로 인해 해당 내용은 블라인드처리 되었습니다"
+                    }
+                    ret.push(this.replydata[i])
                 }
             }
             return ret
@@ -290,6 +300,9 @@ export default {
             let ret = [];
             for(let i in this.rereplydata) {
                 if(reboardnumber === this.rereplydata[i].reboardnumber) {
+                    if(this.rereplydata[i].rere_reportcnt >= 5){
+                        this.rereplydata[i].rerecontent = "다수의 신고로 인해 해당 내용은 블라인드처리 되었습니다"
+                    }
                     ret.push(this.rereplydata[i])
                 }
             }
@@ -300,5 +313,7 @@ export default {
 </script>
 
 <style scoped>
-
+.blindforreport {
+    color: red;
+}
 </style>

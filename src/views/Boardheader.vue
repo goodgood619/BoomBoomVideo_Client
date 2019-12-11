@@ -92,47 +92,47 @@ export default {
         },
         allupload(selected) {
             this.selectedtoggle = selected
-            this.$emit('allupload',this.selectedcategory)  
+            this.$emit('allupload')  
         },
         lolupload(selected) {
             this.selectedtoggle = selected
-            this.$emit('lolupload',this.selectedcategory)  
+            this.$emit('lolupload')  
         },
         gameupload(selected){
             this.selectedtoggle = selected
-            this.$emit('gameupload',this.selectedcategory)
+            this.$emit('gameupload')
         },
         bgroundupload(selected) {
             this.selectedtoggle = selected
-            this.$emit('bgroundupload',this.selectedcategory)
+            this.$emit('bgroundupload')
         },
         owatchupload(selected) {
             this.selectedtoggle = selected
-            this.$emit('owatchupload',this.selectedcategory)
+            this.$emit('owatchupload')
         },  
         humordataupload(selected) {
             this.selectedtoggle = selected
-            this.$emit("humordataupload",this.page,this.selectedcategory)
+            this.$emit('humordataupload')
         },
         musicupload(selected) {
             this.selectedtoggle = selected
-            this.$emit('musicupload',this.selectedcategory)
+            this.$emit('musicupload')
         },
         impressupload(selected) {
             this.selectedtoggle = selected
-            this.$emit('impressupload',this.selectedcategory)
+            this.$emit('impressupload')
         },
         animalupload(selected) {
             this.selectedtoggle = selected
-            this.$emit('animalupload',this.selectedcategory)
+            this.$emit('animalupload')
         },
         sportsupload(selected) {
             this.selectedtoggle = selected
-            this.$emit('sportsupload',this.selectedcategory)
+            this.$emit('sportsupload')
         },
         etcupload(selected) {
             this.selectedtoggle = selected
-            this.$emit('etcupload',this.selectedcategory)
+            this.$emit('etcupload')
         }
 
     }
