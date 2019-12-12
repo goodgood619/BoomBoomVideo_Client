@@ -1,9 +1,9 @@
 <template>
         <v-app>
            <boardheader :page="page" :total="total" :overlay="overlay" :selectedcategory="selectedcategory" @registercontent ="registercontent" @nextpagination ="nextpagination" @prevpagination="prevpagination"
-            @allupload ="allupload" @lolupload="lolupload" @gameupload="gameupload" @bgroundupload="bgroundupload" @owatchupload="owatchupload" 
+            @currentupload ="currentupload" @lolupload="lolupload" @gameupload="gameupload" @bgroundupload="bgroundupload" @owatchupload="owatchupload" 
             @humordataupload="humordataupload" @musicupload="musicupload" @impressupload="impressupload" @animalupload="animalupload" @sportsupload="sportsupload" @etcupload="etcupload"
-            @likeupload="likeupload"
+            @likeupload="likeupload" @registerupload="registerupload"
            />
            <boardcontent :uploaddata="uploaddata" :replydata="replydata" :rereplydata="rereplydata" @removeboardcontent="removeboardcontent" @likeboardcontent ="likeboardcontent" 
            @dislikeboardcontent ="dislikeboardcontent" @reportcontent="reportcontent"
@@ -58,16 +58,18 @@ export default {
                 console.log(err)
             }
         },
-        async allupload(selectedcategory){
+        async currentupload(selectedcategory){
             try {
                 const res = await axios({
                     method : 'post',
-                    url : '/api/allupload'
+                    url : '/api/currentupload'
                 })
                 this.uploaddata = res.data.uploaddata[0].uploaddata
-                this.page = 0
+                this.replydata = res.data.replydata[0].reply
+                this.rereplydata = res.data.rereplydata[0].rereply
                 this.total = res.data.totalboardcontent[0].totalboardcnt / 3
-                this.selectedcategory = ""
+                this.page = 0
+                this.selectedcategory = "최신순"
             } catch(err){
                 console.log(err)
             }
@@ -249,8 +251,29 @@ export default {
                     url : '/api/likeupload'
                 })
                 alert(res.data.test)
-                
+                this.uploaddata = res.data.uploaddata[0].uploaddata
+                this.replydata = res.data.replydata[0].reply
+                this.rereplydata = res.data.rereplydata[0].rereply
+                this.total = res.data.totalboardcontent[0].totalboardcnt / 3
+                this.selectedcategory = "좋아요"
+                this.page = 0
             } catch(err) {
+                console.log(err)
+            }
+        },
+        async registerupload() {
+            try {
+                const res = await axios({
+                    method : 'post',
+                    url : '/api/registerupload'
+                })
+                this.uploaddata = res.data.uploaddata[0].uploaddata
+                this.replydata = res.data.replydata[0].reply
+                this.rereplydata = res.data.rereplydata[0].rereply
+                this.total = res.data.totalboardcontent[0].totalboardcnt / 3
+                this.selectedcategory = "등록순"
+                this.page = 0
+            } catch(err){
                 console.log(err)
             }
         },
