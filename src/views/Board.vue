@@ -3,7 +3,7 @@
            <boardheader :page="page" :total="total" :overlay="overlay" :selectedcategory="selectedcategory" @registercontent ="registercontent" @nextpagination ="nextpagination" @prevpagination="prevpagination"
             @currentupload ="currentupload" @lolupload="lolupload" @gameupload="gameupload" @bgroundupload="bgroundupload" @owatchupload="owatchupload" 
             @humordataupload="humordataupload" @musicupload="musicupload" @impressupload="impressupload" @animalupload="animalupload" @sportsupload="sportsupload" @etcupload="etcupload"
-            @likeupload="likeupload" @registerupload="registerupload"
+            @likeupload="likeupload" @registerupload="registerupload" @searchcontent="searchcontent"
            />
            <boardcontent :uploaddata="uploaddata" :replydata="replydata" :rereplydata="rereplydata" @removeboardcontent="removeboardcontent" @likeboardcontent ="likeboardcontent" 
            @dislikeboardcontent ="dislikeboardcontent" @reportcontent="reportcontent"
@@ -53,10 +53,28 @@ export default {
                 this.rereplydata = res.data.rereplydata[0].rereply
                 this.total = res.data.totalboardcontent[0].totalboardcnt / 3
                 this.replydata = res.data.replydata[0].reply
+                this.selectedcategory = "최신순"
             }
             catch(err) {
                 console.log(err)
             }
+        },
+        async searchcontent(searchtitle, searchcategory) {
+                try {
+                    const res = await axios({
+                        method : 'post',
+                        url : '/api/searchcontent',
+                        data : {searchtitle : searchtitle, searchcategory : searchcategory}
+                    })
+                    this.uploaddata = res.data.uploaddata[0].uploaddata
+                    this.replydata = res.data.replydata[0].reply
+                    this.rereplydata = res.data.rereplydata[0].rereply
+                    this.total = res.data.totalboardcontent[0].totalboardcnt / 3
+                    this.page = 0
+                    this.selectedcategory = "검색"
+                } catch(err) {
+                    console.log(err)
+                }
         },
         async currentupload(selectedcategory){
             try {
@@ -348,14 +366,14 @@ export default {
                 console.log(err)
             }
         },
-        async nextpagination(page,selectedcategory){
+        async nextpagination(page,selectedcategory,searchtitle,searchcategory){
             var aa = page
             aa++
             try {
                 const res = await axios({
                     method : 'post',
                     url :'/api/nextpagination',
-                    data : {page : aa ,category : selectedcategory}
+                    data : {page : aa ,category : selectedcategory, searchtitle : searchtitle, searchcategory : searchcategory}
                 })
                 this.uploaddata = res.data.uploaddata[0].uploaddata
                 this.replydata = res.data.replydata[0].reply
@@ -367,14 +385,14 @@ export default {
                 console.log(err)
             }
         },
-        async prevpagination(page,selectedcategory) {
+        async prevpagination(page,selectedcategory,searchtitle,searchcategory) {
             var aa = page
             aa--
             try {
                 const res = await axios({
                     method : 'post',
                     url : '/api/pastpagination',
-                    data : {page : aa , category : selectedcategory}
+                    data : {page : aa , category : selectedcategory, searchtitle: searchtitle, searchcategory : searchcategory}
                 })
                 this.uploaddata = res.data.uploaddata[0].uploaddata
                 this.replydata = res.data.replydata[0].reply
