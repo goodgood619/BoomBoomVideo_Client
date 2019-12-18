@@ -314,6 +314,7 @@ export default {
                         ]
                         alert('등록이 완료되었습니다')
                         this.dataupload()
+                        this.overlay = false
                     } else {
                         alert(res.data.err.name)
                     }
@@ -562,6 +563,10 @@ export default {
                     data : {boardnumber : boardnumber, reauthor : reauthor , repassword : repassword, recontent : recontent}
                 })
                 alert('댓글이 성공적으로 저장되었습니다')
+                // boardnumber에 대한 댓글만 가지고온다
+                        this.replydata = [
+                            ...this.replydata ,res.data.test[0]
+                        ]
             }
             catch(err){
                 console.log(err)
