@@ -317,6 +317,7 @@ export default {
                         this.overlay = false
                     } else {
                         alert(res.data.err.name)
+                        this.overlay = false
                     }
             }
             catch(err) {
