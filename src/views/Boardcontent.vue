@@ -1,7 +1,7 @@
 <template>
 <div class = "boardcontent">
     <div v-for = "(item,idx) in uploaddata" :key="idx">
-    <div style = "position:relative; width:100%; height :90px; border-top : 1px solid rgb(135,177,226)">
+    <div style = "position:relative; width:100%; height :90px;">
         <!-- 좋아요 버튼 싫어요 버튼(추천) -->
         <div style="position:absolute; left:0px; top:4px; width:80px; text-align:center; line-height:150%;">
             <v-btn color = "blue" @click ="likeboardcontent(item.boardnumber,item.likenumber)">좋아요</v-btn>
@@ -11,9 +11,10 @@
             <v-btn color = "red" @click ="dislikeboardcontent(item.boardnumber,item.dislikenumber)">싫어요</v-btn>
         </div>
         <!-- iframe 관련 이미지(thumbnail) -->
-        <div class="ll_thumb" style="position:absolute; left:80px; top:4px; width:120px; height:80px; overflow:hidden; text-align:center; border:1px solid silver;">
+        <div class="ll_thumb" style="position:absolute; left:80px; top:4px; width:120px; height:90px; overflow:hidden; text-align:center; border:1px solid silver;">
             <div style="position:absolute; left:52px; top:32px;">
-                <v-btn class = "mx-45 mt-90" @click="item.iframetoggle = !item.iframetoggle">영상보기</v-btn>
+                <img class="play_btn" src="http://z.fow.kr/img/play.png" @click="item.iframetoggle = !item.iframetoggle" style="position: absolute; left: -23px; top: -17px; border: 0px; cursor: pointer">
+                <!-- <v-btn big class = "mx-100 mt-90">영상보기</v-btn> -->
             </div>
         </div>
         <!-- title 및 링크 -->
@@ -32,8 +33,8 @@
         <!-- 댓글 갯수 -->
         <div style="position:absolute; width:500px; left:210px; bottom:-5px;">
             <span class="position: relative; comments ui-widget-content ui-corner-all" style="padding:3px; font-family:gulim; cursor:pointer;" @click="item.replytoggle = !item.replytoggle">[{{getreplycnt(item.boardnumber)}}]개의 댓글</span>
-            <v-btn class="c_delete ui-widget-content ui-corner-all" dark @click ="removebutton(item.boardnumber)" style="padding:3px; font-family:gulim; cursor:pointer;">삭제</v-btn>
-            <v-btn class="c_delete ui-widget-content ui-corner-all" white @click="registerreplybutton(item.boardnumber)" style="padding:3px; font-family:gulim; cursor:pointer;">댓글등록</v-btn>
+            <v-btn small dark @click ="removebutton(item.boardnumber)" style="padding:3px; font-family:gulim; cursor:pointer;">삭제</v-btn>
+            <v-btn small white @click="registerreplybutton(item.boardnumber)" style="padding:3px; font-family:gulim; cursor:pointer;">댓글등록</v-btn>
         <v-dialog v-model="deletetoggle" max-width = "200px" max-height = "30px" :retain-focus="false">
             <v-card>
                 <v-card-title>
@@ -57,7 +58,7 @@
         <!-- iframe link(toggle) -->
         <div v-show ="item.iframetoggle" style="vertical-align: middle; border-top:0px solid; padding: 8px 8px 8px 75px;color:white">
             <div style="margin-left:-85px;">
-                <iframe height="411" width="730" frameborder="0" v-bind:src=item.linkaddress webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen="" allow="autoplay; fullscreen">
+                <iframe height="411" width="730" frameborder="0" v-bind:src=item.videolinkaddress>
                 </iframe>
             </div>
         </div>

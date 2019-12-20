@@ -4,12 +4,17 @@
          <v-btn color = "red" dark @click="onclick()">영상등록</v-btn>
          <div style = "position:absolute; right : 0px; top :0px">
             <v-btn v-show="page>0" @click="prevpagination">이전</v-btn>
-            <v-btn color="yellow">{{page}}</v-btn>
+            <v-btn color="yellow">{{page+1}}</v-btn>
             <v-btn v-show="page<total-1" @click="nextpagination">다음</v-btn>
          </div>
          
-         <v-dialog v-model="overlay" persistent content-class="centered-dialog">
-            <v-progress-circular :width="50" :size="50" color="red" indeterminate v-show="overlay"></v-progress-circular>
+         <v-dialog v-model="overlay" content-class="centered-dialog">
+             <v-container fill-height>
+                  <v-layout column justify-center align-center>
+                     <v-progress-circular color="red" :size="70" :width="7" indeterminate v-show="overlay"></v-progress-circular>
+                     <h1 v-if="overlay">등록중입니다. 잠시만 기다려주세요</h1>
+                  </v-layout>
+             </v-container>
          </v-dialog>
     <v-simple-table>
     <template v-slot:default>
@@ -84,8 +89,8 @@ import axios from 'axios'
 import boardcontent from './Boardcontent'
 export default {
     props : {
-        page : {type:Number, default : 0},
-        total : {type:Number, default : 0},
+        page : {type: Number, default : 0},
+        total : {type: Number, default : 0},
         overlay : {type : Boolean, default: false},
         selectedcategory : {type :String, default : "전체"}
     },
@@ -112,7 +117,7 @@ export default {
                 this.category = "", this.linkaddress = "", this.title = "", this.author = "", this.password = ""
             }
             else {
-                alert('link를 반드시 입력해주세요')
+                alert('link와 출처를 꼭 입력해주세요.')
             }
         },
         searchcontent() {

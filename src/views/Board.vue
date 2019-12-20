@@ -76,7 +76,7 @@ export default {
                     console.log(err)
                 }
         },
-        async currentupload(selectedcategory){
+        async currentupload(){
             try {
                 const res = await axios({
                     method : 'post',
@@ -295,33 +295,63 @@ export default {
                 console.log(err)
             }
         },
-        async registercontent(category,linkaddress,title,author,password){
-            try {
-                //현재 페이지 다시 계산, 전체 게시글 수 다시 계산
+        async registercontent(category,linkaddress,title,author,password) {
+            let t1 = 'twitch'
+            let temp = linkaddress.indexOf(t1)
+            if(temp == -1) {
+                try {
+                    //현재 페이지 다시 계산, 전체 게시글 수 다시 계산
+                        const res = await axios({
+                            method : 'post',
+                            url : '/api/saveboardyoutube',
+                            data : {category : category , linkaddress : linkaddress , title : title, author : author, password : password}
+                        })
+                        const aa = res.data.test
+                        if(aa != undefined){
+                            this.uploaddata = [
+                                {
+                                    author : aa.author , boardnumber : aa.boardnumber, category : aa.category, dislikenumber : aa.dislikenumber,iframetoggle : aa.iframetoggle,
+                                    likenumber : aa.likenumber, linkaddress : aa.linkaddress, password : aa.password, reportcnt : aa.reportcnt, title : aa.title
+                                },
+                                ...this.uploaddata
+                            ]
+                            alert('등록이 완료되었습니다')
+                            this.currentupload()
+                            this.overlay = false
+                        } else {
+                            alert(res.data.err.name)
+                            this.overlay = false
+                        }
+                }
+                catch(err) {
+                    console.log(err)
+                }
+            } else {
+                try {
                     const res = await axios({
                         method : 'post',
-                        url : '/api/saveboard',
+                        url : '/api/saveboardtwitch',
                         data : {category : category , linkaddress : linkaddress , title : title, author : author, password : password}
                     })
                     const aa = res.data.test
-                    if(aa != undefined){
-                        this.uploaddata = [
-                            ...this.uploaddata,
-                            {
-                                author : aa.author , boardnumber : aa.boardnumber, category : aa.category, dislikenumber : aa.dislikenumber,iframetoggle : aa.iframetoggle,
-                                likenumber : aa.likenumber, linkaddress : aa.linkaddress, password : aa.password, reportcnt : aa.reportcnt, title : aa.title
-                            }
-                        ]
-                        alert('등록이 완료되었습니다')
-                        this.dataupload()
-                        this.overlay = false
-                    } else {
-                        alert(res.data.err.name)
-                        this.overlay = false
-                    }
-            }
-            catch(err) {
-                console.log(err)
+                        if(aa != undefined){
+                            this.uploaddata = [
+                                {
+                                    author : aa.author , boardnumber : aa.boardnumber, category : aa.category, dislikenumber : aa.dislikenumber,iframetoggle : aa.iframetoggle,
+                                    likenumber : aa.likenumber, linkaddress : aa.linkaddress, password : aa.password, reportcnt : aa.reportcnt, title : aa.title
+                                },
+                                ...this.uploaddata
+                            ]
+                            alert('등록이 완료되었습니다')
+                            this.currentupload()
+                            this.overlay = false
+                        } else {
+                            alert(res.data.err.name)
+                            this.overlay = false
+                        }
+                } catch(err) {
+                    console.log(err)
+                }
             }
         },
         async removeboardcontent(boardnumber,password){
@@ -334,7 +364,7 @@ export default {
                 })
                 alert(res.data.test)
                 this.uploaddata = this.uploaddata.filter(uploaddata => uploaddata.boardnumber !== boardnumber)
-                this.dataupload()
+                this.currentupload()
             }
             catch(err){
                 console.log(err)
@@ -349,7 +379,7 @@ export default {
                 })
                 alert(res.data.test)
                 this.replydata = this.replydata.filter(replydata => replydata.reboardnumber !== reboardnumber)
-                this.dataupload()
+                this.currentupload()
             } catch(err) {
                 console.log(err)
             }
@@ -363,7 +393,7 @@ export default {
                 })
                 alert(res.data.test)
                 this.rereplydata = this.rereplydata.filter(rereplydata => rereplydata.rereboardnumber !== rereboardnumber)
-                this.dataupload()
+                this.currentupload()
             } catch(err){ 
                 console.log(err)
             }
@@ -589,7 +619,7 @@ export default {
         
     },
     mounted() {
-        this.dataupload()
+        this.currentupload()
     }
 }
 </script>
