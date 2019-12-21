@@ -268,7 +268,6 @@ export default {
                     method : 'post',
                     url : '/api/likeupload'
                 })
-                alert(res.data.test)
                 this.uploaddata = res.data.uploaddata[0].uploaddata
                 this.replydata = res.data.replydata[0].reply
                 this.rereplydata = res.data.rereplydata[0].rereply
@@ -296,8 +295,7 @@ export default {
             }
         },
         async registercontent(category,linkaddress,title,author,password) {
-            let t1 = 'twitch'
-            let temp = linkaddress.indexOf(t1)
+            let temp = linkaddress.indexOf('twitch')
             if(temp == -1) {
                 try {
                     //현재 페이지 다시 계산, 전체 게시글 수 다시 계산
@@ -319,7 +317,7 @@ export default {
                             this.currentupload()
                             this.overlay = false
                         } else {
-                            alert(res.data.err.name)
+                            alert('실시간 스트리밍 혹은 등록이 불가능한 영상입니다. 다른 영상을 등록해주세요')
                             this.overlay = false
                         }
                 }
@@ -346,7 +344,7 @@ export default {
                             this.currentupload()
                             this.overlay = false
                         } else {
-                            alert(res.data.err.name)
+                            alert('실시간 스트리밍 혹은 등록이 불가능한 영상입니다. 다른 영상을 등록해주세요')
                             this.overlay = false
                         }
                 } catch(err) {

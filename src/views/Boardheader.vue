@@ -47,18 +47,18 @@
     </form>
  </div>
         <!-- 게시물 등록폼 -->
-            <v-dialog v-model ="dialog" max-width = "400px" max-height = "50px">
+            <v-dialog v-model ="dialog" max-width = "400px" max-height = "10px">
             <v-card>
                 <v-card-title>
                     <h2>FOW 게시물등록</h2>
                 </v-card-title>
                     <v-card-text>
-                        <v-form class = "px-3">
+                        <v-form class>
                             <v-select :items = "items" label = "분류" v-model="category"></v-select>
-                            <v-textarea label ="링크(필수입력)" v-model="linkaddress"></v-textarea>
-                            <v-textarea label = "제목" v-model="title"></v-textarea>
-                            <v-textarea label = "이름" v-model="author"></v-textarea>
-                            <v-textarea label = "암호" v-model="password"></v-textarea>
+                            <v-textarea label ="링크(필수입력)" v-model="linkaddress" rows="3"></v-textarea>
+                            <v-textarea label = "제목" v-model="title" rows="1"></v-textarea>
+                            <v-textarea label = "이름" v-model="author" rows="1"></v-textarea>
+                            <v-textarea label = "암호" v-model="password" rows="1"></v-textarea>
                             <v-btn class = "success mx-0 mt-3" @click="registercontent()">등록</v-btn>
                             <v-btn class = "cancel mx-3 mt-3" @click="dialog = false">취소</v-btn>
                         </v-form>
@@ -74,7 +74,7 @@
                     <v-card-text>
                         <v-form class = "px-3">
                             <v-select :items = "searchitems" label = "분류" v-model="searchcategory"></v-select>
-                            <v-textarea label ="게시물 제목을 입력해주세요" v-model="searchtitle"></v-textarea>
+                            <v-textarea label ="게시물 제목을 입력해주세요" v-model="searchtitle" rows="1"></v-textarea>
                             <v-btn class = "success mx-0 mt-3" @click="searchcontent()">검색</v-btn>
                             <v-btn class = "cancel mx-3 mt-3" @click="searchdialog = false">취소</v-btn>
                         </v-form>
@@ -101,7 +101,7 @@ export default {
             selectedtogglearray : [0,1,2,3,4,5,6,7,8,9,10,11,12,13],
             selectedtoggle : Number,
             items : ['LOL','게임','배그','오버워치','유머','음악','감동','동물','스포츠','기타'],
-            searchitems : ['전체','LOL','게임','배그','오버워치','유머','음악','감동','동물','스포츠','기타','좋아요','등록순'],
+            searchitems : ['LOL','게임','배그','오버워치','유머','음악','감동','동물','스포츠','기타','좋아요','등록순'],
             category : "", linkaddress : "", title : "", author : "", password : "",
             searchcategory : "", searchtitle : "",
         }
