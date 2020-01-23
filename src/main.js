@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import './plugins/axios'
 import App from './App.vue'
+import Board from './views/Board'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify';
@@ -12,5 +13,5 @@ new Vue({
   store,
   vuetify,
   vueyoutube,
-  render: h => h(App)
+  render: h => h(Board)
 }).$mount('#app')
