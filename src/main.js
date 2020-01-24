@@ -13,5 +13,5 @@ new Vue({
   store,
   vuetify,
   vueyoutube,
-  render: h => h(Board)
+  render: h => h(App)
 }).$mount('#app')
