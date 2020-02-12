@@ -10,11 +10,10 @@ module.exports = {
   devServer : {
     proxy : {
       '/api': {
-        target : 'http://15.164.234.135:80/'
+        target : 'http://ec2-13-125-217-252.ap-northeast-2.compute.amazonaws.com/'
       }
     }
   },
-
   pluginOptions: {
     s3Deploy: {
       registry: undefined,
