@@ -45,7 +45,7 @@ export default {
         async dataupload(){
             try {
                     const res = await axios({
-                    method : 'put',
+                    method : 'post',
                     url : '/api/dataupload',
                     data : {page : this.page}
                 })
@@ -62,7 +62,7 @@ export default {
         async searchcontent(searchtitle, searchcategory) {
                 try {
                     const res = await axios({
-                        method : 'put',
+                        method : 'post',
                         url : '/api/searchcontent',
                         data : {searchtitle : searchtitle, searchcategory : searchcategory}
                     })
@@ -79,7 +79,7 @@ export default {
         async currentupload(){
             try {
                 const res = await axios({
-                    method : 'put',
+                    method : 'post',
                     url : '/api/currentupload'
                 })
                 this.uploaddata = res.data.uploaddata[0].uploaddata
@@ -95,7 +95,7 @@ export default {
         async lolupload() {
             try {
                 const res = await axios({
-                    method : 'put',
+                    method : 'post',
                     url : '/api/lolupload',
                     data : {category : 'LOL'}
                 })
@@ -112,7 +112,7 @@ export default {
         async gameupload() {
             try {
                 const res = await axios({
-                    method : 'put',
+                    method : 'post',
                     url : '/api/gameupload',
                     data : {category : "게임"}
                 })
@@ -129,7 +129,7 @@ export default {
         async bgroundupload() {
             try {
                 const res = await axios({
-                    method : 'put',
+                    method : 'post',
                     url : '/api/bgroundupload',
                     data : {category : "배그"}
                 })
@@ -146,7 +146,7 @@ export default {
         async owatchupload() {
             try {
                 const res = await axios({
-                    method : 'put',
+                    method : 'post',
                     url : '/api/owatchupload',
                     data : {category : "오버워치"}
                 })
@@ -163,7 +163,7 @@ export default {
         async humordataupload() {
             try {
                 const res = await axios({
-                    method : 'put',
+                    method : 'post',
                     url : '/api/humordataupload',
                     data : {category : '유머'} 
                 })
@@ -180,7 +180,7 @@ export default {
         async musicupload() {
             try {
                 const res = await axios({
-                    method : 'put',
+                    method : 'post',
                     url : '/api/musicupload',
                     data : {category : "음악"}
                 })
@@ -197,7 +197,7 @@ export default {
         async impressupload() {
             try {
                 const res = await axios({
-                    method : 'put',
+                    method : 'post',
                     url : '/api/impressupload',
                     data : {category : "감동"}
                 })
@@ -214,7 +214,7 @@ export default {
         async animalupload() {
             try {
                 const res = await axios({
-                    method : 'put',
+                    method : 'post',
                     url : '/api/animalupload',
                     data : {category : "동물"}
                 })
@@ -231,7 +231,7 @@ export default {
         async sportsupload() {
             try {
                 const res = await axios({
-                    method : 'put',
+                    method : 'post',
                     url : '/api/sportsupload',
                     data : {category : "스포츠"}
                 })
@@ -248,7 +248,7 @@ export default {
         async etcupload() {
             try {
                 const res = await axios({
-                    method : 'put',
+                    method : 'post',
                     url : '/api/etcupload',
                     data : {category : "기타"}
                 })
@@ -265,7 +265,7 @@ export default {
         async likeupload() {
             try {
                 const res = await axios({
-                    method : 'put',
+                    method : 'post',
                     url : '/api/likeupload'
                 })
                 this.uploaddata = res.data.uploaddata[0].uploaddata
@@ -281,7 +281,7 @@ export default {
         async registerupload() {
             try {
                 const res = await axios({
-                    method : 'put',
+                    method : 'post',
                     url : '/api/registerupload'
                 })
                 this.uploaddata = res.data.uploaddata[0].uploaddata
@@ -300,7 +300,7 @@ export default {
                 try {
                     //현재 페이지 다시 계산, 전체 게시글 수 다시 계산
                         const res = await axios({
-                            method : 'put',
+                            method : 'post',
                             url : '/api/saveboardyoutube',
                             data : {category : category , linkaddress : linkaddress , title : title, author : author, password : password}
                         })
@@ -327,7 +327,7 @@ export default {
             } else {
                 try {
                     const res = await axios({
-                        method : 'put',
+                        method : 'post',
                         url : '/api/saveboardtwitch',
                         data : {category : category , linkaddress : linkaddress , title : title, author : author, password : password}
                     })
@@ -356,7 +356,7 @@ export default {
             try {
                 //현재 페이지 다시 계산, 전체 게시글 수 다시 계산
                 const res = await axios({
-                    method : 'put',
+                    method : 'post',
                     url : '/api/removeboardcontent',
                     data : {boardnumber : boardnumber,password: password}
                 })
@@ -371,7 +371,7 @@ export default {
         async removeboardreplycontent(reboardnumber,repassword) {
             try {
                 const res = await axios({
-                    method: 'put',
+                    method: 'post',
                     url : '/api/removeboardreplycontent',
                     data : {reboardnumber : reboardnumber, repassword : repassword}
                 })
@@ -385,7 +385,7 @@ export default {
         async removeboardrereplycontent(rereboardnumber,rerepassword){
             try {
                 const res = await axios({
-                    method: 'put',
+                    method: 'post',
                     url : '/api/removeboardrereplycontent',
                     data : {rereboardnumber : rereboardnumber, rerepassword : rerepassword}
                 })
@@ -401,7 +401,7 @@ export default {
             aa++
             try {
                 const res = await axios({
-                    method : 'put',
+                    method : 'post',
                     url :'/api/nextpagination',
                     data : {page : aa ,category : selectedcategory, searchtitle : searchtitle, searchcategory : searchcategory}
                 })
@@ -420,7 +420,7 @@ export default {
             aa--
             try {
                 const res = await axios({
-                    method : 'put',
+                    method : 'post',
                     url : '/api/pastpagination',
                     data : {page : aa , category : selectedcategory, searchtitle: searchtitle, searchcategory : searchcategory}
                 })
@@ -438,7 +438,7 @@ export default {
         async likeboardcontent(boardnumber,likenumber) {
             try {
                 const res = await axios({
-                    method :'put',
+                    method :'post',
                     url :'/api/likeboardcontent',
                     data : {boardnumber : boardnumber,likenumber : likenumber}
                 })
@@ -458,7 +458,7 @@ export default {
         async likereplycontent(reboardnumber,relikenumber){
             try {
                 const res = await axios({
-                    method : 'put',
+                    method : 'post',
                     url : '/api/likereplycontent',
                     data : {reboardnumber : reboardnumber, relikenumber : relikenumber}
                 })
@@ -477,7 +477,7 @@ export default {
         async likerereplycontent(rereboardnumber,rerelikenumber){
             try {
                 const res = await axios({
-                    method : 'put',
+                    method : 'post',
                     url : '/api/likerereplycontent',
                     data : {rereboardnumber : rereboardnumber, rerelikenumber : rerelikenumber}
                 })
@@ -497,7 +497,7 @@ export default {
         async dislikeboardcontent(boardnumber,dislikenumber) {
             try {
                 const res = await axios({
-                    method : 'put',
+                    method : 'post',
                     url : '/api/dislikeboardcontent',
                     data : {boardnumber : boardnumber, dislikenumber : dislikenumber}
                 })
@@ -517,7 +517,7 @@ export default {
         async reportcontent(boardnumber,reportcnt) {
             try {
                 const res = await axios({
-                    method: 'put',
+                    method: 'post',
                     url : '/api/reportcntcontent',
                     data : {boardnumber : boardnumber,reportcnt :reportcnt}
                 })
@@ -541,7 +541,7 @@ export default {
         async reportreplycontent(reboardnumber,re_reportcnt) {
             try {
                 const res = await axios({
-                    method : 'put',
+                    method : 'post',
                     url : '/api/reportreplycontent',
                     data : {reboardnumber : reboardnumber, re_reportcnt : re_reportcnt}
                 })
@@ -564,7 +564,7 @@ export default {
         async reportrereplycontent(rereboardnumber,rere_reportcnt) {
             try {
                 const res = await axios({
-                    method : 'put',
+                    method : 'post',
                     url : '/api/reportrereplycontent',
                     data : {rereboardnumber : rereboardnumber, rere_reportcnt : rere_reportcnt}
                 })
@@ -587,7 +587,7 @@ export default {
         async savereplycontent(boardnumber,reauthor,repassword,recontent){
             try {
                 const res = await axios({
-                    method : 'put',
+                    method : 'post',
                     url : '/api/savereply',
                     data : {boardnumber : boardnumber, reauthor : reauthor , repassword : repassword, recontent : recontent}
                 })
@@ -604,7 +604,7 @@ export default {
         async saverereplycontent(boardnumber,boardreplynumber,rereauthor,rerepassword,rerecontent) {
             try {
                 const res = await axios({
-                    method : 'put',
+                    method : 'post',
                     url : '/api/saverereply',
                     data : { boardnumber : boardnumber, boardreplynumber : boardreplynumber, rereauthor : rereauthor, rerepassword: rerepassword, rerecontent : rerecontent}
                 })

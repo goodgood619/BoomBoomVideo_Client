@@ -12,8 +12,8 @@
         </div>
         <!-- iframe 관련 이미지(thumbnail) -->
         <div class="ll_thumb" style="position:absolute; left:80px; top:4px; width:120px; height:90px; overflow:hidden; text-align:center; border:1px solid silver;">
-            <div style="position:absolute; left:52px; top:32px;">
-                <img class="play_btn" src="http://z.fow.kr/img/play.png" @click="item.iframetoggle = !item.iframetoggle" style="position: absolute; left: -23px; top: -17px; border: 0px; cursor: pointer">
+            <div style="position:absolute; left:20px; top:15px;">
+                <img class="play_btn" src="https://goodgood619bucket.s3.ap-northeast-2.amazonaws.com/%EC%9E%AC%EC%83%9D%EB%B2%84%ED%8A%BC.PNG" @click="item.iframetoggle = !item.iframetoggle" style="position: absolute; left: -23px; top: -17px; border: 0px; cursor: pointer">
                 <!-- <v-btn big class = "mx-100 mt-90">영상보기</v-btn> -->
             </div>
         </div>
@@ -90,9 +90,9 @@
             <div v-for ="(item2,idx) in getreplycontent(item.boardnumber)" :key="idx">
                 <div>
                     <div style="position:relative; color:#77D; font-size:9pt; width:100%; background:#F0F0F0; padding:2px; border-top:1px solid #AAA; border-bottom:1px dotted #CCC;">{{item2.reauthor}} 
-                        <img title="답글" class="show_reply_comment" style="cursor:pointer; vertical-align:middle;" src="http://z.fow.kr/img/reply_comment.gif" 
+                        <img title="답글" class="show_reply_comment" style="cursor:pointer; vertical-align:middle;" src="https://goodgood619bucket.s3.ap-northeast-2.amazonaws.com/%EB%8C%93%EA%B8%80%EB%B2%84%ED%8A%BC.PNG" 
                         @click="registerrereplycontent(item.boardnumber,item2.reboardnumber)">&nbsp;
-                        <img title="삭제" class="delete_comment" style=" vertical-align:middle;" src="http://z.fow.kr/img/delete.gif" @click="removereplybutton(item2.reboardnumber)">
+                        <img title="삭제" class="delete_comment" style=" vertical-align:middle;" src="https://goodgood619bucket.s3.ap-northeast-2.amazonaws.com/%EC%82%AD%EC%A0%9C%EB%B2%84%ED%8A%BC.PNG" @click="removereplybutton(item2.reboardnumber)">
                         <div style="filter:alpha(opacity=70); opacity:0.7; color:#E5E5E5; position:absolute; top:3px; right:0px;">b8ed4ded 
                             <a class="sbtn small good_comment" gc="0">
                                 <span style="color:#3333CC;" @click="likereplycontent(item2.reboardnumber,item2.relikenumber)">추천{{item2.relikenumber}}</span>
@@ -108,7 +108,7 @@
                         <div style = "padding-left : 50px">
                         <div style="position:relative; color:#77D; font-size:9pt; width:100%; background:#F0F0F0; padding:2px; border-top:1px solid #AAA; border-bottom:1px dotted #CCC;">{{item3.rereauthor}} 
                         &nbsp;
-                        <img title="삭제" class="delete_comment" style=" vertical-align:middle;" src="http://z.fow.kr/img/delete.gif" @click="removerereplybutton(item3.rereboardnumber)">
+                        <img title="삭제" class="delete_comment" style=" vertical-align:middle;" src="https://goodgood619bucket.s3.ap-northeast-2.amazonaws.com/%EC%82%AD%EC%A0%9C%EB%B2%84%ED%8A%BC.PNG" @click="removerereplybutton(item3.rereboardnumber)">
                             <div style="filter:alpha(opacity=70); opacity:0.7; color:#E5E5E5; position:absolute; top:3px; right:0px;">
                                 <a class="sbtn small good_comment" gc="0">
                                     <span style="color:#3333CC;" @click="likerereplycontent(item3.rereboardnumber,item3.rerelikenumber)">추천{{item3.rerelikenumber}}</span>

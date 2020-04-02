@@ -21,4 +21,7 @@ npm run lint
 ```
 
 ### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+See [Configuration Reference](https://cli.vuejs.org/config/).  
+
+#### Server
+if you change **Server**, go **vue.config.js** and modify proxy

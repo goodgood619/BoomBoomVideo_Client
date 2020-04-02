@@ -124,7 +124,7 @@ export default {
             if(this.searchtitle !== "" && this.searchcategory !=="") {
                 this.$emit('searchcontent',this.searchtitle, this.searchcategory)
             } else {
-                alert('title을 입력해주세요')
+                alert('title 혹은 category를 입력해주세요')
             }
         },
         nextpagination(){
