@@ -1,4 +1,4 @@
-# BoomBoomVideo_
+# BoomBoomVideo
 
 ## Project setup
 ```
