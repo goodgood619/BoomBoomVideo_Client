@@ -78,7 +78,6 @@
                             <br>
                             내용: <input v-model="recontent" class="comment_memo ui-widget-content ui-corner-all" style="width:480px;"> &nbsp; 
                         <br>
-                        <span style="color:red;">※ 추천유도!, 비방성 댓글, 허위사실, 비속어 등은 자제해 주세요.</span>
                             <v-btn class = "success mx-0 mt-3" @click="savereplycontent(testboardnumber,reauthor,repassword,recontent)">등록</v-btn>
                             </div>
                         </v-form>
@@ -137,7 +136,6 @@
                                         <br>
                                         내용: <input v-model="rerecontent" class="comment_memo ui-widget-content ui-corner-all" style="width:480px;"> &nbsp; 
                                     <br>
-                                    <span style="color:red;">※ 추천유도!, 비방성 댓글, 허위사실, 비속어 등은 자제해 주세요.</span>
                                         <v-btn class = "success mx-0 mt-3" @click="saverereplycontent(testboardnumber,testboardreplynumber,rereauthor,rerepassword,rerecontent)">등록</v-btn>
                                         </div>
                                     </v-form>

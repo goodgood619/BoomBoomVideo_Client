@@ -50,7 +50,7 @@
             <v-dialog v-model ="dialog" max-width = "400px" max-height = "10px">
             <v-card>
                 <v-card-title>
-                    <h2>FOW 게시물등록</h2>
+                    <h2>게시물등록</h2>
                 </v-card-title>
                     <v-card-text>
                         <v-form class>
@@ -69,7 +69,7 @@
             <v-dialog v-model ="searchdialog" max-width = "400px" max-height = "50px">
             <v-card>
                 <v-card-title>
-                    <h2>FOW 게시물검색</h2>
+                    <h2>게시물검색</h2>
                 </v-card-title>
                     <v-card-text>
                         <v-form class = "px-3">
