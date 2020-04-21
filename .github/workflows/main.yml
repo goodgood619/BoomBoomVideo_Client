@@ -25,6 +25,8 @@ jobs:
     - name: Install dependency
       run: npm install
   
+    - name : build
+      run: npm run build
   
     # Runs a single command using the runners shell
     - name: Run a one-line script
