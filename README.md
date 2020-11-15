@@ -6,6 +6,21 @@
 ## 적용 기술
 **JavaScript**, **Vue.js**
 
+### Version
+
+---
+
+|Project Environment|Version|
+|:---:|:---:|
+|`npm`|6.14.7|
+
+
+### Architecture
+
+---
+
+![architecture](BoomBoomVideo_architecture.PNG)
+
 ## 설치 과정
 
 ### Project setup
@@ -33,3 +48,9 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 #### Server
 if you change **Server**, go **vue.config.js** and modify proxy
+
+#### 빌드 시 에러가 날 경우
+npm update 후, npm run serve 명령 다시 실행
+```
+npm update
+```
